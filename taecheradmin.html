@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr</title>
+  <style>
+    /* General Reset */
+        /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #000;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  width: 300px;
+  margin-right: 10px;
+}
+
+
+header nav a {
+  margin-left: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+header nav a:hover {
+  color: #9f7aea;
+}
+
+
+
+    /* Main Section */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+.card img {
+  margin-bottom: 1rem;
+}
+
+
+    .card button {
+      padding: 0.5rem 1rem;
+      background-color: transparent;
+      border: 1px solid #fff;
+      border-radius: 25px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .card button:hover {
+      background-color: #fff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="EduTrackr Logo">
+        
+      </div>
+      <nav>
+        <a href="#">Login</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </nav>
+    </header>
+
+  <main>
+    <div class="card">
+      <img src="admin.png" alt="Admin Icon">
+      <a href="loginn.html"><button>Admin Login</button></a>
+    </div>
+    <div class="card">
+      <img src="teacher.png" alt="Teacher Icon">
+      <button>Teacher Login</button>
+    </div>
+  </main>
+</body>
+</html>

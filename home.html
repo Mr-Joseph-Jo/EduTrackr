@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr</title>
+  <style>
+    /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #000;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  width: 300px;
+  margin-right: 10px;
+}
+
+
+header nav a {
+  margin-left: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+header nav a:hover {
+  color: #9f7aea;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.hero-text {
+  max-width: 50%;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-text .btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #9f7aea;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.hero-text .btn:hover {
+  background-color: #805ad5;
+}
+
+.hero-image img {
+  width: 650px;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-image img {
+    margin-top: 1.5rem;
+    width: 90%;
+  }
+}
+h1 {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 64px;
+}
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem; /* Adjust as needed */
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="EduTrackr Logo">
+      
+    </div>
+    <nav>
+      <a href="taecheradmin.html">Login</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+    </nav>
+  </header>
+  <main>
+    <div class="hero-section">
+      <div class="hero-text">
+        
+        
+        
+        <h1>Track and boost student performance effortlessly</h1>
+        <hr><br>
+        <p>
+          Our platform empowers educational institutions to efficiently monitor and manage 
+          student performance. With advanced tools for class, batch, and subject management, 
+          we provide a comprehensive solution for tracking grades, providing additional support, 
+          and overall academic progress.
+        </p>
+        <a href="#" class="btn">Read more</a>
+      </div>
+      <div class="hero-image">
+        <img src="chart.png" alt="Graph Representation">
+      </div>
+    </div>
+  </main>
+</body>
+</html>

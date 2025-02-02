@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management Dashboard</title>
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #000;
+  color: #fff;
+  line-height: 1.6;
+  
+        
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  width: 300px;
+  margin-right: 10px;
+}
+
+
+header nav a {
+  margin-left: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+header nav a:hover {
+  color: #9f7aea;
+}
+
+        
+.container {
+  background: #1a1919;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px;
+  margin-top: 40px; /* Add this to move the entire box down */
+  color: rgb(245, 246, 246);
+  margin-left:240px;
+}
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color:rgb(79, 153, 171);
+        }
+
+        .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; /* Adds space between the buttons */
+  align-items: center; /* Centers the buttons horizontally */
+  margin-bottom: 20px;
+  
+}
+
+        .menu button {
+            background: #0d0d0d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 20px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu button:hover {
+            background: white;
+            color: #101010;
+            border: 2px solid #121212;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button.submit {
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button.submit:hover {
+            background: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .gradient-heading {
+  font-size: 2.5rem; /* Adjust size as needed */
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(to right, #ff007f, #ff80bf, #80bfff, #007fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  position: relative;
+  
+}
+
+/* Add the underline */
+.gradient-heading::after {
+  content: "";
+  display: block;
+  
+  width: 100%;
+  background: blue; /* Choose underline color */
+  margin: 5px auto 0; /* Adjust spacing */
+}
+
+    </style>
+</head>
+
+<body>
+    
+        <header>
+          <div class="logo">
+            <img src="logo.png" alt="EduTrackr Logo">
+            
+          </div>
+          <nav>
+            <a href="#">Login</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+          </nav>
+        </header>
+        <center>
+        
+    </center>
+    <div class="container">
+        <div class="header">
+            <h1 class="gradient-heading">Welcome to Admin Dashboard!</h1>
+        </div>
+
+        <div class="menu">
+            <button onclick="showSection('classes')">Manage Classes</button>
+            <button onclick="showSection('batches')">Manage Batches</button>
+            <button onclick="showSection('teachers')">Manage Teachers</button>
+        </div>
+
+        <!-- Manage Classes Section -->
+        <div id="classes" class="form-section">
+            <h2>Manage Classes</h2>
+            <form>
+                <label for="batch">Choose Batch:</label>
+                <select id="batch" required>
+                    <option value="">-- Select Batch --</option>
+                    <option value="Batch 1">Batch 1</option>
+                    <option value="Batch 2">Batch 2</option>
+                </select>
+
+                <label for="semester">Choose Semester:</label>
+                <select id="semester" required>
+                    <option value="">-- Select Semester --</option>
+                    <option value="Sem 1">Semester 1</option>
+                    <option value="Sem 2">Semester 2</option>
+                </select>
+
+                <label for="file">Upload File:</label>
+                <input type="file" id="file" required>
+
+                <button type="submit" class="submit">Upload</button>
+            </form>
+        </div>
+
+        <!-- Manage Batches Section -->
+        <div id="batches" class="form-section">
+            <h2>Manage Batches</h2>
+            <form>
+                <label for="batch">Choose Batch:</label>
+                <select id="batch" required>
+                    <option value="">-- Select Batch --</option>
+                    <option value="Batch 1">Batch 1</option>
+                    <option value="Batch 2">Batch 2</option>
+                </select>
+
+                <label for="file">Upload File:</label>
+                <input type="file" id="file" required>
+
+                <button type="submit" class="submit">Upload</button>
+            </form>
+        </div>
+
+        <!-- Manage Teachers Section -->
+        <div id="teachers" class="form-section">
+            <h2>Manage Teachers</h2>
+            <form>
+                <label for="name">Teacher's Name:</label>
+                <input type="text" id="name" placeholder="Enter Teacher's Name" required>
+
+                <label for="department">Department:</label>
+                <input type="text" id="department" placeholder="Enter Department" required>
+
+                <label for="login">Login ID:</label>
+                <input type="text" id="login" placeholder="Enter Login ID" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter Password" required>
+
+                <button type="submit" class="submit">Add Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
