@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr</title>
+  <style>
+    /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+  background-color: #121212;  /* Dark background for better contrast */
+  color: #fff;
+  line-height: 1.6;
+  font-size: 16px; /* Set a default font size */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  scroll-behavior: smooth; /* Smooth scrolling */
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(28, 28, 28, 0.8); /* Transparent header */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  transition: background-color 0.3s ease;
+}
+
+header.scrolled {
+  background-color: rgba(28, 28, 28, 1); /* Solid background on scroll */
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  width: 200px;
+  margin-right: 10px;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+}
+
+header nav a {
+  margin-left: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s, transform 0.3s, padding 0.3s ease;
+}
+
+header nav a:hover {
+  color: #9f7aea;
+  transform: translateY(-5px); /* Subtle hover effect */
+  padding-bottom: 3px; /* Small bottom padding on hover */
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 2rem;
+  margin-top: 80px; /* Add space below the fixed header */
+  background: url('background-image.jpg') no-repeat center center/cover;
+  background-size: cover;
+  position: relative;
+  overflow: hidden; /* Hide overflow for smooth parallax effect */
+}
+
+.hero-section:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+  z-index: -1;
+  animation: fadeIn 1s ease-out;
+}
+
+.hero-text {
+  max-width: 50%;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: slideIn 1s forwards 0.5s;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #f4f4f4;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Adds a nice glow effect */
+  transition: transform 0.3s ease;
+}
+
+.hero-text h1:hover {
+  transform: translateX(10px); /* Slightly move the title on hover */
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  margin-bottom: 1.8rem;
+  color: #d1d1d1;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s forwards 1s;
+}
+
+.hero-text .btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #9f7aea;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-text .btn:hover {
+  background-color: #805ad5;
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+}
+
+.hero-image img {
+  width: 650px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  opacity: 0.8;
+}
+
+/* Parallax Scrolling Effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-text {
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .hero-image img {
+    width: 80%;
+    margin-top: 1rem;
+  }
+}
+
+h1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 64px;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+/* Scroll Effect */
+header.scrolled {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">c
+      <img src="Assets/logo.png" alt="EduTrackr Logo, a platform to track student performance">
+    </div>
+    <nav>
+      <a href="taecheradmin.html">Login</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="contactus.html">Contact Us</a>
+    </nav>
+  </header>
+  <main>
+    <div class="hero-section">
+      <div class="hero-text">
+        <h1>Track and boost student performance effortlessly</h1>
+        <hr><br>
+        <p>
+          Our platform empowers educational institutions to efficiently monitor and manage 
+          student performance. With advanced tools for class, batch, and subject management, 
+          we provide a comprehensive solution for tracking grades, providing additional support, 
+          and overall academic progress.
+        </p>
+        <a href="#" class="btn">Read more</a>
+      </div>
+      <div class="hero-image">
+        <img src="Assets/chart.png" alt="Graph Representation of student performance tracking">
+      </div>
+    </div>
+	<div class="video-section">
+    
+   
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', function () {
+      const header = document.querySelector('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>
