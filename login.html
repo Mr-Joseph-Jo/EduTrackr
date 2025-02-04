@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr Login</title>
+  <style>
+    /* CSS Variables for Theme Management */
+    :root {
+      --primary-color: #9f7aea;
+      --secondary-color: #fff;
+      --background-color: #000;
+      --card-background: rgba(26, 26, 26, 0.8);
+      --card-hover-background: rgba(42, 42, 42, 0.9);
+      --font-family: 'Arial', sans-serif;
+      --transition-speed: 0.3s;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+    }
+
+    /* Body Styling */
+    body {
+      background-color: var(--background-color);
+      color: var(--secondary-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* Prevent scrollbars */
+      position: relative;
+    }
+
+    /* Chart Background Container */
+    .chart-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Place behind other content */
+      opacity: 0.3; /* Semi-transparent charts */
+    }
+
+    .chart-background canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Header Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--card-background);
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px); /* Adds a blur effect */
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Space between logo and text */
+    }
+
+    header .logo img {
+      width: 200px; /* Larger logo */
+      transition: transform var(--transition-speed), filter var(--transition-speed);
+    }
+
+    /* Logo Hover Effect */
+    header .logo img:hover {
+      transform: scale(1.1); /* Slightly enlarge on hover */
+      filter: drop-shadow(0 0 10px rgba(159, 122, 234, 0.7)); /* Add glow effect */
+    }
+
+    header nav a {
+      margin-left: 2rem;
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color var(--transition-speed);
+    }
+
+    header nav a:hover {
+      color: var(--primary-color);
+    }
+
+    /* Main Section */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4rem;
+      margin-top: 6rem;
+      padding: 2rem;
+      flex-wrap: wrap;
+      z-index: 1; /* Ensure content is above the background */
+    }
+
+    /* Card Styling */
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background-color: var(--card-background);
+      padding: 3rem;
+      border-radius: 20px;
+      width: 350px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      transition: transform var(--transition-speed), background-color var(--transition-speed);
+      backdrop-filter: blur(10px); /* Adds a blur effect */
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      background-color: var(--card-hover-background);
+    }
+
+    /* Icon Styling */
+    .card img {
+      width: 120px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      transition: transform var(--transition-speed);
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Button Styling */
+    .card button {
+      padding: 1rem 2rem;
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      border-radius: 30px;
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .card button:hover {
+      background-color: var(--primary-color);
+      color: var(--background-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      header nav {
+        margin-top: 1rem;
+      }
+
+      header nav a {
+        margin: 0 1rem;
+      }
+
+      main {
+        flex-direction: column;
+        margin-top: 8rem;
+      }
+
+      .card {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+
+      header .logo img {
+        width: 150px; /* Slightly smaller logo on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Chart Background -->
+  <div class="chart-background">
+    <canvas id="lineChart"></canvas>
+    <canvas id="barChart"></canvas>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="EduTrackr Logo">
+    </div>
+    <nav>
+      <a href="#">Login</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <img src="admin.png" alt="Admin Icon">
+      <a href="loginn.html"><button>Admin Login</button></a>
+    </div>
+    <div class="card">
+      <img src="teacher.png" alt="Teacher Icon">
+      <button>Teacher Login</button>
+    </div>
+  </main>
+
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Line Chart Configuration
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Student Progress',
+          data: [65, 59, 80, 81, 56, 72],
+          borderColor: 'rgba(159, 122, 234, 0.5)',
+          borderWidth: 2,
+          fill: false,
+          pointRadius: 0, // Hide points
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 5000, // Animation duration
+          easing: 'linear', // Smooth animation
+          loop: true, // Loop animation
+        },
+        scales: {
+          x: { display: false }, // Hide x-axis
+          y: { display: false }, // Hide y-axis
+        },
+        plugins: {
+          legend: { display: false }, // Hide legend
+        },
+      }
+    });
+
+    // Bar Chart Configuration
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Math', 'Science', 'History', 'English', 'Art'],
+        datasets: [{
+          label: 'Grades',
+          data: [85, 50, 78, 88, 20],
+          backgroundColor: 'rgba(159, 122, 234, 0.3)',
+          borderColor: 'rgba(159, 122, 234, 0.5)',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 5000, // Animation duration
+          easing: 'linear', // Smooth animation
+          loop: true, // Loop animation
+        },
+        scales: {
+          x: { display: false }, // Hide x-axis
+          y: { display: false }, // Hide y-axis
+        },
+        plugins: {
+          legend: { display: false }, // Hide legend
+        },
+      }
+    });
+  </script>
+</body>
+</html>

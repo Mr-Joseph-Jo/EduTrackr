@@ -1,284 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Management Dashboard</title>
-    <style>
-        * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr Login</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
 
-/* Body Styling */
-body {
-  background-color: #000;
-  color: #fff;
-  line-height: 1.6;
-}
+    /* Body Styling */
+    body {
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-/* Header Styling */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  
-}
+    /* Header Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      width: 100%;
+      position: absolute;
+      top: 0;
+    }
 
-header .logo {
-  display: flex;
-  align-items: center;
-}
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
 
-header .logo img {
-  width: 300px;
-  margin-right: 10px;
-}
+    header .logo img {
+      width: 300px;
+      margin-right: 10px;
+    }
 
+    header nav a {
+      margin-left: 2rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+    }
 
-header nav a {
-  margin-left: 2rem;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-}
+    header nav a:hover {
+      color: #9f7aea;
+    }
 
-header nav a:hover {
-  color: #9f7aea;
-}
+    /* Login Container */
+    .container {
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    }
 
-        
-.container {
-  background: #1a1919;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  width: 100%;
-  max-width: 1000px;
-  padding: 40px;
-  margin-top: 40px; /* Add this to move the entire box down */
-  color: rgb(245, 246, 246);
-  margin-left:240px;
-}
+    /* User Logo */
+    .logo img {
+      width: 250px;
+      
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    /* Login Form */
+    .login-form {
+      width: 100%;
+      text-align: center;
+    }
 
-        .header h1 {
-            font-size: 32px;
-            color:rgb(79, 153, 171);
-        }
+    .login-form .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
 
-        .menu {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem; /* Adds space between the buttons */
-  align-items: center; /* Centers the buttons horizontally */
-  margin-bottom: 20px;
-  
-}
+    .login-form .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
 
-        .menu button {
-            background: #0d0d0d;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 20px 40px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+    .login-form .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: none;
+      background: rgb(247, 245, 245);
+      color: #fff;
+      outline: none;
+    }
 
-        .menu button:hover {
-            background: white;
-            color: #101010;
-            border: 2px solid #121212;
-        }
+    .login-form .input-group input:focus {
+      border: 2px solid #101bb6;
+    }
 
-        .form-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #212020, #232222);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      margin-top: 10px;
+    }
 
-        .form-section.active {
-            display: block;
-        }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(5, 95, 164, 0.5);
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    /* Reset Password Link */
+    .reset-password {
+      display: inline-block;
+      margin-top: 15px;
+      color: #f1f1f1;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-        label {
-            font-size: 16px;
-            color: #333;
-        }
-
-        input, select, button {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        button.submit {
-            background: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        button.submit:hover {
-            background: #0056b3;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .gradient-heading {
-  font-size: 2.5rem; /* Adjust size as needed */
-  font-weight: bold;
-  text-align: center;
-  background: linear-gradient(to right, #ff007f, #ff80bf, #80bfff, #007fff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  position: relative;
-  
-}
-
-/* Add the underline */
-.gradient-heading::after {
-  content: "";
-  display: block;
-  
-  width: 100%;
-  background: blue; /* Choose underline color */
-  margin: 5px auto 0; /* Adjust spacing */
-}
-
-    </style>
+    .reset-password:hover {
+      color: #050505;
+    }
+  </style>
 </head>
-
 <body>
-    
-        <header>
-          <div class="logo">
-            <a href="home.html">
-            <img src="Assets/logo.png" alt="EduTrackr Logo">
-            </a>
-            
-          </div>
-          <nav>
-            <a href="taecheradmin.html">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="contactus.html">Contact Us</a>
-          </nav>
-        </header>
-        <center>
-        
-    </center>
-    <div class="container">
-        <div class="header">
-            <h1 class="gradient-heading">Welcome to Admin Dashboard!</h1>
-        </div>
-
-        <div class="menu">
-            <button onclick="showSection('classes')">Manage Classes</button>
-            <button onclick="showSection('batches')">Manage Batches</button>
-            <button onclick="showSection('teachers')">Manage Teachers</button>
-        </div>
-
-        <!-- Manage Classes Section -->
-        <div id="classes" class="form-section">
-            <h2>Manage Classes</h2>
-            <form>
-                <label for="batch">Choose Batch:</label>
-                <select id="batch" required>
-                    <option value="">-- Select Batch --</option>
-                    <option value="Batch 1">Batch 1</option>
-                    <option value="Batch 2">Batch 2</option>
-                </select>
-
-                <label for="semester">Choose Semester:</label>
-                <select id="semester" required>
-                    <option value="">-- Select Semester --</option>
-                    <option value="Sem 1">Semester 1</option>
-                    <option value="Sem 2">Semester 2</option>
-                </select>
-
-                <label for="file">Upload File:</label>
-                <input type="file" id="file" required>
-
-                <button type="submit" class="submit">Upload</button>
-            </form>
-        </div>
-
-        <!-- Manage Batches Section -->
-        <div id="batches" class="form-section">
-            <h2>Manage Batches</h2>
-            <form>
-                <label for="batch">Choose Batch:</label>
-                <select id="batch" required>
-                    <option value="">-- Select Batch --</option>
-                    <option value="Batch 1">Batch 1</option>
-                    <option value="Batch 2">Batch 2</option>
-                </select>
-
-                <label for="file">Upload File:</label>
-                <input type="file" id="file" required>
-
-                <button type="submit" class="submit">Upload</button>
-            </form>
-        </div>
-
-        <!-- Manage Teachers Section -->
-        <div id="teachers" class="form-section">
-            <h2>Manage Teachers</h2>
-            <form>
-                <label for="name">Teacher's Name:</label>
-                <input type="text" id="name" placeholder="Enter Teacher's Name" required>
-
-                <label for="department">Department:</label>
-                <input type="text" id="department" placeholder="Enter Department" required>
-
-                <label for="login">Login ID:</label>
-                <input type="text" id="login" placeholder="Enter Login ID" required>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Enter Password" required>
-
-                <button type="submit" class="submit">Add Teacher</button>
-            </form>
-        </div>
+  <header>
+    <div class="logo">
+      <a href="home.html">
+        <img src="Assets/logo.png" alt="EduTrackr Logo">
+      </a>
     </div>
+    <nav>
+      <a href="taecheradmin.html">Login</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="contactus.html">Contact Us</a>
+    </nav>
+  </header>
 
-    <script>
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.form-section');
-            sections.forEach(section => section.classList.remove('active'));
+  <div class="container">
+    <div class="logo">
+      <img src="Assets/user.png" alt="User Avatar">
+    </div>
+    <div class="login-form">
+      <form onsubmit="return login()">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter Username" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter Password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+  </div>
 
-            const activeSection = document.getElementById(sectionId);
-            activeSection.classList.add('active');
-        }
-    </script>
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "" || password === "") {
+        alert("Please fill in both fields.");
+        return false; // Prevent form submission
+      } else {
+        alert("Welcome, " + username + "!");
+        // Redirect to admin.html after successful login
+        window.location.href = "admin.html"; // Ensure this path is correct
+        return false; // Prevent form submission (optional, since we're redirecting)
+      }
+    }
+  </script>
 </body>
-
 </html>

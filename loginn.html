@@ -170,11 +170,10 @@
           <input type="password" id="password" placeholder="Enter Password">
         </div>
         <button type="button" class="btn" onclick="login()">Login</button>
-        
       </form>
     </div>
   </div>
-
+  
   <script>
     function login() {
       const username = document.getElementById("username").value;
@@ -183,10 +182,16 @@
       if (username === "" || password === "") {
         alert("Please fill in both fields.");
       } else {
+<<<<<<< Updated upstream
         // Redirect to admin.html
+=======
+        alert("Welcome, " + username + "!");
+        // Redirect to admin.html after successful login
+>>>>>>> Stashed changes
         window.location.href = "admin.html";
       }
     }
+
   </script>
 </body>
 </html>
