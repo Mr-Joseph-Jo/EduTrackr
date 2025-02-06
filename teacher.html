@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #050505;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        header .logo img {
+            width: 200px;
+        }
+
+        header nav a {
+            margin-left: 2rem;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        header nav a:hover {
+            color: #9f7aea;
+        }
+
+        .container {
+            background-color: rgba(15, 15, 15, 0.8);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1000px;
+            padding: 40px;
+            margin-top: 100px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        
+
+        select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+       
+
+        .active {
+            display: block;
+        }
+
+
+
+
+
+
+
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #acf0f9;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: #fefdfd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            background: #646464;
+        }
+
+        .menu-item h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .menu-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .submit {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit:hover {
+            background: #5a0ebb;
+        }
+
+        .comparison-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .comparison-section button {
+            margin: 10px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .comparison-section button:hover {
+            background: #1d5bbf;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <img src="logo.png" alt="EduTrackr Logo, a platform to track student performance">
+        </div>
+        <nav>
+          <a href="home.html">Home</a>
+          <a href="loginpage.html">Login</a>
+          <a href="aboutus.html">About Us</a>
+          <a href="contactus.html">Contact Us</a>
+        </nav>
+      </header>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+       
+            <div class="header">
+                <h1 >Teacher Dashboard</h1>
+                <p style="color: white;">Analyze Student Performance</p>
+            </div>
+    
+            <div class="menu">
+                <div class="menu-item" onclick="showSection('batch-selection')">
+                    <h2>Batch Selection</h2>
+                    <p>Select a batch to begin</p>
+                </div>
+            </div>
+    
+            <div id="batch-selection" class="content-section">
+                <h2 style="color: white;">Select Batch</h2>
+                <div class="form-group">
+                    <label for="batch">Choose Batch:</label>
+                    <select id="batch" onchange="showSemesterOptions()">
+                        <option value="">-- Select Batch --</option>
+                        <option value="Batch 1">Batch 1</option>
+                        <option value="Batch 2">Batch 2</option>
+                    </select>
+                </div>
+    
+                <div id="semester-section" style="display: none;">
+                    <h2 style="color: white;">Select Semester</h2>
+                    <div class="form-group">
+                        <label for="semester">Choose Semester:</label>
+                        <select id="semester" onchange="showAnalysisOptions()">
+                            <option value="">-- Select Semester --</option>
+                            <option value="Sem 1">Semester 1</option>
+                            <option value="Sem 2">Semester 2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="analysis-section" style="display: none;">
+                <h2 style="color: white;">Performance Analysis</h2>
+    
+                <div class="menu">
+                    <div class="menu-item">
+                        <h2>Subjects</h2>
+                        <p>View marks for each subject</p>
+                    </div>
+                    <div class="menu-item">
+                        <h2>Semester Performance</h2>
+                        <p>Analyze overall student performance</p>
+                    </div>
+                    <div class="menu-item">
+                        <h2>CGPA Analysis</h2>
+                        <p>Find toppers and pass/fail counts</p>
+                    </div>
+                </div>
+    
+                <div class="comparison-section">
+                    <h2 style="color: white;">Comparison Options</h2>
+                    <button onclick="alert('Semwise Comparison')">Semester-wise Comparison</button>
+                    <button onclick="alert('Batchwise Comparison')">Batch-wise Comparison</button>
+                </div>
+            
+        </div>
+    
+        <script>
+            function showSection(sectionId) {
+                const sections = document.querySelectorAll('.content-section');
+                sections.forEach(section => section.classList.remove('active'));
+    
+                document.getElementById(sectionId).classList.add('active');
+            }
+    
+            function showSemesterOptions() {
+                const semesterSection = document.getElementById('semester-section');
+                semesterSection.style.display = 'block';
+            }
+    
+            function showAnalysisOptions() {
+                const analysisSection = document.getElementById('analysis-section');
+                analysisSection.style.display = 'block';
+            }
+        </script>
+    
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#9f7aea' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#9f7aea', opacity: 0.4 },
+                move: { enable: true, speed: 3 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>

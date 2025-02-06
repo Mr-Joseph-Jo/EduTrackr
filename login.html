@@ -5,56 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduTrackr Login</title>
   <style>
-    /* CSS Variables for Theme Management */
-    :root {
-      --primary-color: #9f7aea;
-      --secondary-color: #fff;
-      --background-color: #000;
-      --card-background: rgba(26, 26, 26, 0.8);
-      --card-hover-background: rgba(42, 42, 42, 0.9);
-      --font-family: 'Arial', sans-serif;
-      --transition-speed: 0.3s;
-    }
-
     /* General Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: var(--font-family);
+      font-family: 'Poppins', sans-serif;
     }
 
-    /* Body Styling */
+    /* Body Styling with Gradient Background */
     body {
-      background-color: var(--background-color);
-      color: var(--secondary-color);
+      background: linear-gradient(135deg, #000, #1e1e2f);
+      color: #fff;
       line-height: 1.6;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      overflow: hidden; /* Prevent scrollbars */
-      position: relative;
-    }
-
-    /* Chart Background Container */
-    .chart-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* Place behind other content */
-      opacity: 0.3; /* Semi-transparent charts */
-    }
-
-    .chart-background canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
     /* Header Styling */
@@ -63,103 +32,150 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background-color: var(--card-background);
       width: 100%;
-      position: fixed;
+      position: absolute;
       top: 0;
-      left: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px); /* Adds a blur effect */
     }
 
     header .logo {
       display: flex;
       align-items: center;
-      gap: 10px; /* Space between logo and text */
     }
 
     header .logo img {
-      width: 200px; /* Larger logo */
-      transition: transform var(--transition-speed), filter var(--transition-speed);
+      width: 250px;
+      margin-right: 10px;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    /* Logo Hover Effect */
     header .logo img:hover {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-      filter: drop-shadow(0 0 10px rgba(159, 122, 234, 0.7)); /* Add glow effect */
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 15px rgba(159, 122, 234, 0.8));
     }
 
     header nav a {
       margin-left: 2rem;
-      color: var(--secondary-color);
+      color: #fff;
       text-decoration: none;
       font-size: 1rem;
-      transition: color var(--transition-speed);
+      transition: color 0.3s ease;
     }
 
     header nav a:hover {
-      color: var(--primary-color);
+      color: #9f7aea;
     }
 
-    /* Main Section */
-    main {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 4rem;
-      margin-top: 6rem;
-      padding: 2rem;
-      flex-wrap: wrap;
-      z-index: 1; /* Ensure content is above the background */
-    }
-
-    /* Card Styling */
-    .card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    /* Login Container with Glassmorphism Effect */
+    .container {
+      max-width: 400px;
+      width: 100%;
       text-align: center;
-      background-color: var(--card-background);
-      padding: 3rem;
+      background: rgba(255, 255, 255, 0.05);
       border-radius: 20px;
-      width: 350px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-      transition: transform var(--transition-speed), background-color var(--transition-speed);
-      backdrop-filter: blur(10px); /* Adds a blur effect */
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(159, 122, 234, 0.3);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .card:hover {
-      transform: translateY(-10px) scale(1.05);
-      background-color: var(--card-hover-background);
+    /* User Logo */
+    .logo img {
+      width: 150px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
     }
 
-    /* Icon Styling */
-    .card img {
-      width: 120px;
-      margin-bottom: 2rem;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-      transition: transform var(--transition-speed);
-    }
-
-    .card:hover img {
+    .logo img:hover {
       transform: scale(1.1);
     }
 
-    /* Button Styling */
-    .card button {
-      padding: 1rem 2rem;
-      background-color: transparent;
-      border: 2px solid var(--primary-color);
-      border-radius: 30px;
-      color: var(--secondary-color);
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background-color var(--transition-speed), color var(--transition-speed);
+    /* Login Form */
+    .login-form {
+      width: 100%;
+      text-align: center;
     }
 
-    .card button:hover {
-      background-color: var(--primary-color);
-      color: var(--background-color);
+    .login-form .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .login-form .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #ddd;
+    }
+
+    .login-form .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-form .input-group input:focus {
+      border-color: #9f7aea;
+      box-shadow: 0 0 15px rgba(159, 122, 234, 0.5);
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #9f7aea, #6c5b7b);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.5s ease;
+    }
+
+    .btn:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(159, 122, 234, 0.7);
+    }
+
+    /* Reset Password Link */
+    .reset-password {
+      display: inline-block;
+      margin-top: 15px;
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .reset-password:hover {
+      color: #9f7aea;
     }
 
     /* Responsive Design */
@@ -177,118 +193,63 @@
         margin: 0 1rem;
       }
 
-      main {
-        flex-direction: column;
-        margin-top: 8rem;
+      .container {
+        padding: 20px;
       }
 
-      .card {
-        width: 100%;
-        margin-bottom: 2rem;
-      }
-
-      header .logo img {
-        width: 150px; /* Slightly smaller logo on mobile */
+      .logo img {
+        width: 120px;
       }
     }
   </style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Chart Background -->
-  <div class="chart-background">
-    <canvas id="lineChart"></canvas>
-    <canvas id="barChart"></canvas>
-  </div>
-
   <header>
     <div class="logo">
       <img src="logo.png" alt="EduTrackr Logo">
     </div>
     <nav>
-      <a href="#">Login</a>
+	  <a href="home.html">Home</a>
+      <a href="loginpage.html">Login</a>
       <a href="#">About Us</a>
       <a href="#">Contact Us</a>
     </nav>
   </header>
 
-  <main>
-    <div class="card">
-      <img src="admin.png" alt="Admin Icon">
-      <a href="loginn.html"><button>Admin Login</button></a>
+  <div class="container">
+    <div class="logo">
+      <img src="admin.png" alt="User Avatar">
     </div>
-    <div class="card">
-      <img src="teacher.png" alt="Teacher Icon">
-      <button>Teacher Login</button>
+    <div class="login-form">
+      <form>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter Password">
+        </div>
+        <button type="button" class="btn" onclick="login()">Login</button>
+        <a href="#" class="reset-password">Forgot Password?</a>
+      </form>
     </div>
-  </main>
+  </div>
 
-  <!-- Chart.js Library -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Line Chart Configuration
-    const lineCtx = document.getElementById('lineChart').getContext('2d');
-    const lineChart = new Chart(lineCtx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'Student Progress',
-          data: [65, 59, 80, 81, 56, 72],
-          borderColor: 'rgba(159, 122, 234, 0.5)',
-          borderWidth: 2,
-          fill: false,
-          pointRadius: 0, // Hide points
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 5000, // Animation duration
-          easing: 'linear', // Smooth animation
-          loop: true, // Loop animation
-        },
-        scales: {
-          x: { display: false }, // Hide x-axis
-          y: { display: false }, // Hide y-axis
-        },
-        plugins: {
-          legend: { display: false }, // Hide legend
-        },
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+  
+      if (username === "" || password === "") {
+        alert("Please fill in both fields.");
+      } else {
+        // Redirect to admin.html
+        window.location.href = "admin.html";
       }
-    });
-
-    // Bar Chart Configuration
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    const barChart = new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Math', 'Science', 'History', 'English', 'Art'],
-        datasets: [{
-          label: 'Grades',
-          data: [85, 50, 78, 88, 20],
-          backgroundColor: 'rgba(159, 122, 234, 0.3)',
-          borderColor: 'rgba(159, 122, 234, 0.5)',
-          borderWidth: 1,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 5000, // Animation duration
-          easing: 'linear', // Smooth animation
-          loop: true, // Loop animation
-        },
-        scales: {
-          x: { display: false }, // Hide x-axis
-          y: { display: false }, // Hide y-axis
-        },
-        plugins: {
-          legend: { display: false }, // Hide legend
-        },
-      }
-    });
+    }
   </script>
 </body>
 </html>
