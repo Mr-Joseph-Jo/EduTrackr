@@ -274,6 +274,25 @@
       font-size: 1rem;
       color: #d1d1d1;
     }
+    html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  min-height: calc(100vh - 80px); /* Adjust 80px based on your header/footer height */
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+
   </style>
 </head>
 <body>
