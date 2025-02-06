@@ -105,18 +105,20 @@ header .logo img:hover {
 }
 
 header nav a {
-  margin-left: 2rem;
-  color: var(--secondary-color);
-  text-decoration: none;
-  font-size: 1.2rem; /* Increased font size */
-  font-weight: 500; /* Added font weight for better readability */
-  transition: color var(--transition-speed);
-}
+      margin-left: 2rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.3s, transform 0.3s, padding 0.3s ease;
+    }
 
-header nav a:hover {
-  color: var(--primary-color);
-}
-
+    header nav a:hover {
+      color: #9f7aea;
+      transform: translateY(-5px);
+      padding-bottom: 3px;
+    }
 /* Main Section */
 main {
   display: flex;
