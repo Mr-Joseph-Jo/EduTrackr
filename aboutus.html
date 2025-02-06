@@ -44,21 +44,21 @@
             margin: 0 auto;
         }
 
-header nav a {
-      margin-left: 2rem;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: color 0.3s, transform 0.3s, padding 0.3s ease;
-    }
+        header nav a {
+            margin-left: 2rem;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s, transform 0.3s, padding 0.3s ease;
+        }
 
-    header nav a:hover {
-      color: #9f7aea;
-      transform: translateY(-5px);
-      padding-bottom: 3px;
-    }
+        header nav a:hover {
+            color: #9f7aea;
+            transform: translateY(-5px);
+            padding-bottom: 3px;
+        }
 
         nav a {
             color: var(--text-color);
@@ -164,24 +164,64 @@ header nav a {
                 margin-bottom: 1rem;
             }
         }
+
         header .logo img {
-      width: 200px;
-      margin-right: 10px;
-    }
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #1a1a1a, #121212);
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#9f7aea' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { 
+                    enable: true, 
+                    distance: 150, 
+                    color: '#9f7aea', 
+                    opacity: 0.4, 
+                    width: 1 
+                },
+                move: { enable: true, speed: 3 }
+            },
+            interactivity: {
+                events: { 
+                    onhover: { enable: true, mode: 'repulse' }, 
+                    onclick: { enable: true, mode: 'push' } 
+                }
+            },
+            retina_detect: true
+        });
+    </script>
 </head>
 <body>
+    <div id="particles-js"></div>
     <header>
         <div class="header-content">
             <div class="logo">
-              <a href="home.html">
-                <img src="Assets/logo.png" alt="EduCode Tracker Logo">
-              </a>            </div>
+                <a href="home.html">
+                    <img src="Assets/logo.png" alt="EduCode Tracker Logo">
+                </a>
+            </div>
             <nav>
-              <a href="home.html">Home</a>
-              <a href="loginpage.html">Login</a>
-              <a href="aboutus.html">About Us</a>
-              <a href="contactus.html">Contact Us</a>
+                <a href="home.html">Home</a>
+                <a href="loginpage.html">Login</a>
+                <a href="aboutus.html">About Us</a>
+                <a href="contactus.html">Contact Us</a>
             </nav>
         </div>
     </header>
@@ -236,7 +276,7 @@ header nav a {
                     <p>Data Analyst</p>
                 </div>
             </div>
-        </section>
+      </section>
     </div>
 </body>
 </html>
