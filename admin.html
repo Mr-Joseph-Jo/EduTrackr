@@ -15,7 +15,7 @@
         /* Body Styling */
         /* Body Styling */
 body {
-    background-color: #000;
+    background: #121212;
     color: #fff;
     line-height: 1.6;
     display: flex;
@@ -36,57 +36,69 @@ body {
         }
 
         /* Header Styling */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 1rem 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.8); /* Slight transparency */
-            z-index: 1000;
-        }
+/* Navbar Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(28, 28, 28, 0.9);
+    z-index: 999;
+}
 
-        header .logo {
-            display: flex;
-            align-items: center;
-        }
+header .logo {
+    display: flex;
+    align-items: center;
+}
 
-        header .logo img {
+header .logo img {
             width: 200px;
-            margin-right: 10px;
         }
 
-        header nav a {
-      margin-left: 2rem;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: color 0.3s, transform 0.3s, padding 0.3s ease;
-    }
+nav {
+    display: flex;
+    align-items: center;
+}
 
-    header nav a:hover {
-      color: #9f7aea;
-      transform: translateY(-5px);
-      padding-bottom: 3px;
-    }
+nav a {
+    margin-left: 2rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s, transform 0.3s ease;
+}
 
+nav a:hover {
+    color: #9f7aea;
+    transform: translateY(-2px);
+}
+
+/* Ensure content is pushed below fixed navbar */
+.container {
+    margin-top: 80px; /* Adjusts spacing so content doesn't overlap navbar */
+}
         /* Container Styling */
         .container {
-            background-color: rgba(15, 15, 15, 0.5);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 1000px;
-            padding: 40px;
-            margin-top: 100px; /* Space from fixed header */
-            position: relative;
-            z-index: 1;
-        }
+    background: rgba(30, 30, 30, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 1000px;
+    padding: 40px;
+    position: absolute; /* Absolute positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the box */
+    z-index: 1;
+}
+
 
         .header {
             text-align: center;
@@ -104,6 +116,7 @@ body {
             gap: 3rem;
             align-items: center;
             margin-bottom: 20px;
+            
         }
 
         .menu button {
