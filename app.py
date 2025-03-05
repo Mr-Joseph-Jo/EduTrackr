@@ -30,7 +30,7 @@ def admin_login():
         if record:
             session['loggedin'] = True
             session['username'] = record['username']
-            return redirect(url_for('admin_dashboard'))  # Change to an existing endpoint
+            return redirect(url_for('admin_dashboard'))
         else:
             msg = 'Incorrect username/password!'
     return render_template('adminlogin.html', msg=msg)
