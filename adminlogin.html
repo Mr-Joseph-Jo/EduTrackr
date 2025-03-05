@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrackr Login</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Body Styling with Gradient Background */
+    body {
+      background: linear-gradient(135deg, #000, #1e1e2f);
+      color: #fff;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Header Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header .logo img {
+      width: 200px;
+      margin-right: 10px;
+    }
+
+    header .logo img {
+      width: 250px;
+      margin-right: 10px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    header .logo img:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 15px rgba(159, 122, 234, 0.8));
+    }
+
+    header nav a {
+      margin-left: 2rem;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.3s, transform 0.3s, padding 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #9f7aea;
+      transform: translateY(-5px);
+      padding-bottom: 3px;
+    }
+    /* Login Container with Glassmorphism Effect */
+    .container {
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(159, 122, 234, 0.3);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* User Logo */
+    .logo img {
+      width: 150px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Login Form */
+    .login-form {
+      width: 100%;
+      text-align: center;
+    }
+
+    .login-form .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .login-form .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #ddd;
+    }
+
+    .login-form .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-form .input-group input:focus {
+      border-color: #9f7aea;
+      box-shadow: 0 0 15px rgba(159, 122, 234, 0.5);
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #9f7aea, #6c5b7b);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.5s ease;
+    }
+
+    .btn:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(159, 122, 234, 0.7);
+    }
+
+    /* Reset Password Link */
+    .reset-password {
+      display: inline-block;
+      margin-top: 15px;
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .reset-password:hover {
+      color: #9f7aea;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      header nav {
+        margin-top: 1rem;
+      }
+
+      header nav a {
+        margin: 0 1rem;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .logo img {
+        width: 120px;
+      }
+    }
+  </style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <a href="home.html">
+            <img src="Assets/logo.png" alt="EduCode Tracker Logo">
+        </a>    
+    </div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="loginpage.html">Login</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="contactus.html">Contact Us</a>
+    </nav>
+</header>
+
+
+  <div class="container">
+    <div class="logo">
+      <img src="Assets/admin.png" alt="User Avatar">
+    </div>
+    <div class="login-form">
+      <form>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter Password">
+        </div>
+        <button type="button" class="btn" onclick="login()">Login</button>
+        <a href="#" class="reset-password">Forgot Password?</a>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+  
+      if (username === "" || password === "") {
+        alert("Please fill in both fields.");
+      } else {
+        // Redirect to admin.html
+        window.location.href = "admin.html";
+      }
+    }
+  </script>
+</body>
+</html>
