@@ -232,6 +232,10 @@
     </div>
     <div class="login-form">
       <form action="http://127.0.0.1:5000/api/alogin" method="post">
+        <!-- Add this section to display the error message -->
+        {% if msg %}
+        <p style="color: red;">{{ msg }}</p>
+        {% endif %}
         <div class="input-group">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="Enter Username" required>
