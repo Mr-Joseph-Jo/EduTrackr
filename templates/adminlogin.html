@@ -229,18 +229,18 @@
       <img src="Assets/admin.png" alt="User Avatar">
     </div>
     <div class="login-form">
-      <form>
+      <form action="http://127.0.0.1:5000/api/alogin" method="post">
         <div class="input-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Enter Username">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter Username" required>
+        </div>  
+        <div class="input-group"> 
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter Password" required>
         </div>
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter Password">
-        </div>
-        <button type="button" class="btn" onclick="login()">Login</button>
+        <button type="submit" class="btn">Login</button>
         <a href="#" class="reset-password">Forgot Password?</a>
-      </form>
+    </form>
     </div>
   </div>
 
