@@ -16,6 +16,7 @@ app.config['MYSQL_DB'] = 'edutrackr'
 
 mysql = MySQL(app)
 
+
 # Admin Login Route
 @app.route('/api/alogin', methods=['GET', 'POST'])
 def admin_login():
