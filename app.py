@@ -11,7 +11,7 @@ app.secret_key = 'your_secret_key'
 # Database Configuration
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Jo20042004!'
+app.config['MYSQL_PASSWORD'] = '123'
 app.config['MYSQL_DB'] = 'edutrackr'
 
 mysql = MySQL(app)
