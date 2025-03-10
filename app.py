@@ -3,16 +3,17 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from flask_cors import CORS
 
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enables frontend to call backend
 
 app.secret_key = 'your_secret_key'
 
 # Database Configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '123'
-app.config['MYSQL_DB'] = 'edutrackr'
+app.config['MYSQL_HOST'] = 'josephjo.mysql.pythonanywhere-services.com'
+app.config['MYSQL_USER'] = 'josephjo'
+app.config['MYSQL_PASSWORD'] = 'edutracker'
+app.config['MYSQL_DB'] = 'josephjo$edutracker'
 
 mysql = MySQL(app)
 
@@ -68,3 +69,6 @@ def teacher_login():
 # Run Flask App
 if __name__ == '__main__':
     app.run(debug=True)
+
+app = Flask(__name__)
+CORS(app)
