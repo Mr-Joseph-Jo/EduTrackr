@@ -229,7 +229,7 @@ nav a:hover {
                 <!-- Manage Classes Section -->
                 <div id="classes" class="form-section">
                     <h2>Manage Classes</h2>
-                    <form>
+                    <form action="https://josephjo.pythonanywhere.com/api/upload_classes" method="post" enctype="multipart/form-data">
                         <label for="batch">Choose Batch:</label>
                         <select id="batch" required>
                             <option value="">-- Select Batch --</option>
@@ -256,7 +256,7 @@ nav a:hover {
                 <!-- Manage Batches Section -->
                 <div id="batches" class="form-section">
                     <h2>Manage Batches</h2>
-                    <form>
+                    <form action="https://josephjo.pythonanywhere.com/api/upload_batches" method="post" enctype="multipart/form-data">
                         <label for="batch">Choose Batch(Year):</label>
                         <select id="batch" required>
                             <option value="">-- Select Batch --</option>
@@ -276,7 +276,7 @@ nav a:hover {
                 <!-- Manage Teachers Section -->
                 <div id="teachers" class="form-section">
                     <h2>Manage Teachers</h2>
-                    <form>
+                    <form action="https://josephjo.pythonanywhere.com/api/add_teacher" method="post">
                         <label for="name">Teacher's Name:</label>
                         <input type="text" id="name" placeholder="Enter Teacher's Name" required>
         
