@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enables frontend to call backend
 
-app.secret_key = 'your_secret_key'
+app.secret_key = 'secret_key'
 
 # Database Configuration
 app.config['MYSQL_HOST'] = 'localhost'
@@ -35,6 +35,7 @@ def admin_login():
         if record:
             session['loggedin'] = True
             session['username'] = record['username']
+            session['role'] = 'admin'
             return redirect(url_for('admin_dashboard'))
         else:
             msg = 'Incorrect username/password!'
@@ -43,8 +44,15 @@ def admin_login():
 # Define the admin dashboard route
 @app.route('/admin')
 def admin_dashboard():
-    if 'loggedin' in session:
+    if 'loggedin' in session and session.get('role') == 'admin':
         return render_template('admin.html')
+    return redirect(url_for('admin_login'))
+
+# Route to check if the user is an admin and then redirect to the teacher dashboard
+@app.route('/admin_to_teacher')
+def admin_to_teacher():
+    if 'loggedin' in session and session.get('role') == 'admin':
+        return render_template('teacher.html')
     return redirect(url_for('admin_login'))
 
 # Teacher Login Route
@@ -61,6 +69,7 @@ def teacher_login():
         if record:
             session['loggedin'] = True
             session['username'] = record['username']
+            session['role'] = 'teacher'
             return redirect(url_for('teacher_dashboard'))
         else:
             msg = 'Incorrect username/password!'
@@ -69,9 +78,27 @@ def teacher_login():
 # Define the teacher dashboard route
 @app.route('/teacher')
 def teacher_dashboard():
-    if 'loggedin' in session:
+    if 'loggedin' in session and session.get('role') == 'teacher':
         return render_template('teacher.html')
     return redirect(url_for('teacher_login'))
+
+# Dashboard Route
+@app.route('/dashboard')
+def dashboard():
+    if 'loggedin' in session:
+        if session.get('role') == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        elif session.get('role') == 'teacher':
+            return redirect(url_for('teacher_dashboard'))
+    return redirect(url_for('login_page'))
+
+# Logout Route
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('username', None)
+    session.pop('role', None)
+    return redirect(url_for('home'))
 
 # Additional routes for other pages
 @app.route('/aboutus')

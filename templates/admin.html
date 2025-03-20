@@ -205,9 +205,14 @@ nav a:hover {
         </div>
         <nav>
             <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('login_page') }}">Login</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
             <a href="{{ url_for('about_us') }}">About Us</a>
             <a href="{{ url_for('contact_us') }}">Contact Us</a>
+            {% if session.get('loggedin') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login_page') }}">Login</a>
+            {% endif %}
         </nav>
     </header>
 
@@ -222,7 +227,7 @@ nav a:hover {
             <button onclick="showSection('classes')">Manage Classes</button>
             <button onclick="showSection('batches')">Manage Batches</button>
             <button onclick="showSection('teachers')">Manage Teachers</button>
-            <button onclick="window.location.href='{{ url_for('teacher_login') }}'">View Performance Analysis</button>
+            <button onclick="window.location.href='{{ url_for('admin_to_teacher') }}'">View Performance Analysis</button>
 
         </div>
 

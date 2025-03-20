@@ -1,0 +1,1 @@
+INSERT INTO teacher_login (username, password ) VALUES ('teacher', 'teacher');
