@@ -157,6 +157,93 @@ def add_teacher():
 
 
 
+
+
+# File Upload Configuration
+UPLOAD_FOLDER = 'uploads'
+BATCH_FOLDER = os.path.join(UPLOAD_FOLDER, 'batches')
+CLASS_FOLDER = os.path.join(UPLOAD_FOLDER, 'classes')
+
+
+# Ensure the directories exist
+os.makedirs(BATCH_FOLDER, exist_ok=True)
+os.makedirs(CLASS_FOLDER, exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['BATCH_FOLDER'] = BATCH_FOLDER
+app.config['CLASS_FOLDER'] = CLASS_FOLDER
+
+
+
+@app.route('/upload_batch', methods=['POST'])
+def upload_batch():
+    if 'file' not in request.files:
+        return jsonify({'message': 'No file part'}), 400
+    file = request.files['file']
+    batch_id = request.form.get('batch')
+    if file.filename == '':
+        return jsonify({'message': 'No selected file'}), 400
+    if file and batch_id:
+        filename = file.filename
+        file_path = os.path.join(app.config['BATCH_FOLDER'], filename)
+        file.save(file_path)
+        
+        # Process the Excel file and update the database
+        try:
+            df = pd.read_excel(file_path)
+            cursor = mysql.connection.cursor()
+            for index, row in df.iterrows():
+                print(f"Inserting row: {row.to_dict()}")  # Debugging statement
+                
+                # Check if batch_id exists in batches table
+                cursor.execute('SELECT * FROM batches WHERE batch_id = %s', (batch_id,))
+                batch = cursor.fetchone()
+                
+                # If batch_id does not exist, insert it into batches table
+                if not batch:
+                    cursor.execute('SELECT MAX(batch_id) FROM batches')
+                    max_batch_id = cursor.fetchone()[0]  # Accessing the first element of the tuple
+                    new_batch_id = max_batch_id + 1 if max_batch_id else 1
+                    cursor.execute('INSERT INTO batches (batch_id, batch_name) VALUES (%s, %s)', 
+                                   (new_batch_id, batch_id))
+                    batch_id = new_batch_id
+                
+                # Insert data into batch_students table with batch_student_id from Excel file
+                cursor.execute('INSERT INTO batch_students (batch_student_id, batch_id, student_name, uid, email) VALUES (%s, %s, %s, %s, %s)', 
+                               (row['batch_student_id'], batch_id, row['student_name'], row['uid'], row['email']))
+            mysql.connection.commit()
+            cursor.close()
+            return jsonify({'message': 'File successfully uploaded and database updated'}), 200
+        except Exception as e:
+            print(f"Error processing file: {str(e)}")  # Debugging statement
+            return jsonify({'message': f'Error processing file: {str(e)}'}), 500
+
+@app.route('/upload_class', methods=['POST'])
+def upload_class():
+    if 'file' not in request.files:
+        return jsonify({'message': 'No file part'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'message': 'No selected file'}), 400
+    if file:
+        filename = file.filename
+        file_path = os.path.join(app.config['CLASS_FOLDER'], filename)
+        file.save(file_path)
+        
+        try:
+            df = pd.read_excel(file_path)
+            cursor = mysql.connection.cursor()
+            for index, row in df.iterrows():
+                cursor.execute('INSERT INTO students (semester_id, name, uid, subject_mark1, subject_mark2, subject_mark3, subject_mark4, subject_mark5, grade, sgpa, cgpa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
+                               (row['semester_id'], row['name'], row['uid'], row['subject_mark1'], row['subject_mark2'], row['subject_mark3'], row['subject_mark4'], row['subject_mark5'], row['grade'], row['sgpa'], row['cgpa']))
+            mysql.connection.commit()
+            cursor.close()
+            return jsonify({'message': 'File successfully uploaded and database updated'}), 200
+        except Exception as e:
+            return jsonify({'message': f'Error processing file: {str(e)}'}), 500
+
+
+
 # Run Flask App
 if __name__ == '__main__':
     app.run(debug=True)

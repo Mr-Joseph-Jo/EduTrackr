@@ -195,6 +195,29 @@ nav a:hover {
             display: inline-block;
         }
     </style>
+    <script>
+        function showPopup(message) {
+            alert(message);
+        }
+
+        function uploadFile(formId, url) {
+            var formData = new FormData(document.getElementById(formId));
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    showPopup(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showPopup('An error occurred while uploading the file.');
+            });
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -235,14 +258,14 @@ nav a:hover {
                 <!-- Manage Classes Section -->
                 <div id="classes" class="form-section">
                     <h2>Manage Classes</h2>
-                    <form action="https://josephjo.pythonanywhere.com/api/upload_classes" method="post" enctype="multipart/form-data">
+                    <form id="classUploadForm" onsubmit="event.preventDefault(); uploadFile('classUploadForm', '/upload_class');">
                         <label for="batch">Choose Batch:</label>
                         <select id="batch" required>
                             <option value="">-- Select Batch --</option>
-                            <option value="Batch 1">2020-2024</option>
-                            <option value="Batch 2">2021-2025</option>
-                            <option value="Batch 2">2022-2026</option>
-                            <option value="Batch 2">2023-2027</option>
+                            <option value="20-24">2020-2024</option>
+                            <option value="21-25">2021-2025</option>
+                            <option value="22-26">2022-2026</option>
+                            <option value="23-27">2023-2027</option>
                         </select>
         
                         <label for="semester">Choose Semester:</label>
@@ -262,18 +285,18 @@ nav a:hover {
                 <!-- Manage Batches Section -->
                 <div id="batches" class="form-section">
                     <h2>Manage Batches</h2>
-                    <form action="https://josephjo.pythonanywhere.com/api/upload_batches" method="post" enctype="multipart/form-data">
+                    <form id="batchUploadForm" onsubmit="event.preventDefault(); uploadFile('batchUploadForm', '/upload_batch');">
                         <label for="batch">Choose Batch(Year):</label>
-                        <select id="batch" required>
+                        <select id="batch" name="batch" required>
                             <option value="">-- Select Batch --</option>
-                            <option value="Batch 1">2020-2024</option>
-                            <option value="Batch 1">2021-2025</option>
-                            <option value="Batch 1">2022-2026</option>
-                            <option value="Batch 2">2023-2027</option>
+                            <option value="24">2020-2024</option>
+                            <option value="25">2021-2025</option>
+                            <option value="26">2022-2026</option>
+                            <option value="27">2023-2027</option>
                         </select>
         
                         <label for="file">Upload File:</label>
-                        <input type="file" id="file" required>
+                        <input type="file" id="file" name="file" required>
         
                         <button type="submit" class="submit">Upload</button>
                     </form>
