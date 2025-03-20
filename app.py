@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, session, render_template, redirect, u
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from flask_cors import CORS
+import os
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enables frontend to call backend
@@ -15,6 +17,10 @@ app.config['MYSQL_PASSWORD'] = 'Jo20042004!'
 app.config['MYSQL_DB'] = 'edutrackr'
 
 mysql = MySQL(app)
+
+
+
+
 
 # Root route
 @app.route('/')
@@ -55,6 +61,11 @@ def admin_to_teacher():
         return render_template('teacher.html')
     return redirect(url_for('admin_login'))
 
+
+
+
+
+
 # Teacher Login Route
 @app.route('/api/tlogin', methods=['GET', 'POST'])
 def teacher_login():
@@ -82,6 +93,9 @@ def teacher_dashboard():
         return render_template('teacher.html')
     return redirect(url_for('teacher_login'))
 
+
+
+
 # Dashboard Route
 @app.route('/dashboard')
 def dashboard():
@@ -92,6 +106,10 @@ def dashboard():
             return redirect(url_for('teacher_dashboard'))
     return redirect(url_for('login_page'))
 
+
+
+
+
 # Logout Route
 @app.route('/logout')
 def logout():
@@ -99,6 +117,11 @@ def logout():
     session.pop('username', None)
     session.pop('role', None)
     return redirect(url_for('home'))
+
+
+
+
+
 
 # Additional routes for other pages
 @app.route('/aboutus')
@@ -112,6 +135,27 @@ def contact_us():
 @app.route('/loginpage')
 def login_page():
     return render_template('loginpage.html')
+
+
+@app.route('/api/add_teacher', methods=['POST'])
+def add_teacher():
+    if 'loggedin' in session and session.get('role') == 'admin':
+        name = request.form['name']
+        department = request.form['department']
+        login = request.form['login']
+        password = request.form['password']
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute('INSERT INTO teacher (teacher_name, department) VALUES (%s, %s)', (name, department))
+        teacher_id = cursor.lastrowid
+        cursor.execute('INSERT INTO teacher_login (teacher_id, username, password) VALUES (%s, %s, %s)', (teacher_id, login, password))
+        mysql.connection.commit()
+        cursor.close()
+        
+        return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('admin_login'))
+
+
 
 # Run Flask App
 if __name__ == '__main__':

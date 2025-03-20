@@ -282,18 +282,18 @@ nav a:hover {
                 <!-- Manage Teachers Section -->
                 <div id="teachers" class="form-section">
                     <h2>Manage Teachers</h2>
-                    <form action="https://josephjo.pythonanywhere.com/api/add_teacher" method="post">
+                    <form action="{{ url_for('add_teacher') }}" method="post">
                         <label for="name">Teacher's Name:</label>
-                        <input type="text" id="name" placeholder="Enter Teacher's Name" required>
+                        <input type="text" id="name" name="name" placeholder="Enter Teacher's Name" required>
         
                         <label for="department">Department:</label>
-                        <input type="text" id="department" placeholder="Enter Department" required>
+                        <input type="text" id="department" name="department" placeholder="Enter Department" required>
         
                         <label for="login">Login ID:</label>
-                        <input type="text" id="login" placeholder="Enter Login ID" required>
+                        <input type="text" id="login" name="login" placeholder="Enter Login ID" required>
         
                         <label for="password">Password:</label>
-                        <input type="password" id="password" placeholder="Enter Password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" required>
         
                         <button type="submit" class="submit">Add Teacher</button>
                     </form>
