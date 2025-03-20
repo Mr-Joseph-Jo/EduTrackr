@@ -1,314 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="../static/images/logo.png">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduTrackr</title>
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box; 
-      font-family: 'Arial', sans-serif;
-    }
-
-    /* Body Styling */
-    body {
-      background: #121212;
-      color: #fff;
-      line-height: 1.6;
-      font-size: 16px;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    /* Particle Background */
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      background: linear-gradient(135deg, #1a1a1a, #121212);
-    }
-
-    /* Header Styling */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: rgba(28, 28, 28, 0.8);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 999;
-      transition: background-color 0.3s ease;
-    }
-
-    header.scrolled {
-      background-color: rgba(28, 28, 28, 1);
-    }
-
-    header .logo img {
-      width: 200px;
-      margin-right: 10px;
-    }
-
-    header nav a {
-      margin-left: 2rem;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: color 0.3s, transform 0.3s, padding 0.3s ease;
-    }
-
-    header nav a:hover {
-      color: #9f7aea;
-      transform: translateY(-5px);
-      padding-bottom: 3px;
-    }
-
-    /* Hero Section */
-    .hero-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 2rem;
-      margin-top: 80px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-text {
-      max-width: 800px;
-      opacity: 0;
-      transform: translateY(-50px);
-      animation: fadeUp 1s forwards 0.5s;
-    }
-
-    .hero-text h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 1.2rem;
-      color: #f4f4f4;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
-    }
-
-    .hero-text h1:hover {
-      transform: translateX(10px);
-    }
-
-    .hero-text p {
-      font-size: 1.2rem;
-      margin-bottom: 1.8rem;
-      color: #d1d1d1;
-      line-height: 1.7;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s forwards 1s;
-    }
-
-    .hero-text .btn {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background-color: #9f7aea;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-text .btn:hover {
-      background-color: #805ad5;
-      transform: scale(1.1);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero-image {
-      margin-top: 2rem;
-      opacity: 0;
-      transform: translateY(50px);
-      animation: fadeUp 1s forwards 1.5s;
-    }
-
-    .hero-image img {
-      width: 600px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .hero-image img:hover {
-      transform: scale(1.05);
-      opacity: 0.8;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive Styling */
-    @media (max-width: 768px) {
-      .hero-section {
-        padding: 2rem 1rem;
-      }
-
-      .hero-text h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-text p {
-        font-size: 1rem;
-      }
-
-      .hero-image img {
-        width: 100%;
-      }
-    }
-
-    h1 {
-      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-      font-size: 64px;
-    }
-
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
-    }
-
-    /* Scroll Effect */
-    header.scrolled {
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    /* Features Section */
-    .features-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      padding: 4rem 2rem;
-    }
-
-    .feature {
-      flex: 1 1 30%;
-      margin: 1rem;
-      text-align: center;
-      background: rgba(28, 28, 28, 0.8);
-      border-radius: 10px;
-      padding: 2rem;
-      transition: transform 0.3s;
-    }
-
-    .feature:hover {
-      transform: scale(1.05);
-    }
-
-    .feature img {
-      width: 100px;
-      height: auto;
-      margin-top: 1rem;
-    }
-    .how-it-works {
-      background: #1a1a1a;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    .how-it-works h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .how-it-works-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .how-it-works-item {
-      background: #232323;
-      padding: 2rem;
-      border-radius: 10px;
-      max-width: 350px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .how-it-works-item img {
-      width: 100px;
-      margin-bottom: 1rem;
-    }
-
-    .how-it-works-item h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .how-it-works-item p {
-      font-size: 1rem;
-      color: #d1d1d1;
-    }
-    html, body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  min-height: calc(100vh - 80px); /* Adjust 80px based on your header/footer height */
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-.footer a:link{
-  color:#9f7aea;
-}
-
-
-  </style>
 </head>
 <body>
   <!-- Particle Background -->
   <div id="particles-js"></div>
   <header>
     <div class="logo">
-      <a href="index.html">
-        <img src="../static/images/logo.png" alt="EduCode Tracker Logo">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EduCode Tracker Logo">
       </a>    </div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="loginpage.html">Login</a>
-      <a href="aboutus.html">About Us</a>
-      <a href="contactus.html">Contact Us</a>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('login_page') }}">Login</a>
+      <a href="{{ url_for('about_us') }}">About Us</a>
+      <a href="{{ url_for('contact_us') }}">Contact Us</a>
     </nav>
   </header>
   <main>
@@ -322,7 +33,7 @@ main {
           we provide a comprehensive solution for tracking grades, providing additional support, 
           and overall academic progress.
         </p>
-        <a href="aboutus.html" class="btn">Read more</a>
+        <a href="{{ url_for('about_us') }}" class="btn">Read more</a>
       </div>
      
 
