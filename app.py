@@ -234,6 +234,15 @@ def upload_class():
             df = pd.read_excel(file_path)
             cursor = mysql.connection.cursor()
             for index, row in df.iterrows():
+                # Check if semester_id exists in semester table
+                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (row['semester_id'],))
+                semester = cursor.fetchone()
+                
+                # If semester_id does not exist, return an error
+                if not semester:
+                    return jsonify({'message': f'Semester ID {row["semester_id"]} does not exist'}), 400
+                
+                # Insert data into students table
                 cursor.execute('INSERT INTO students (semester_id, name, uid, subject_mark1, subject_mark2, subject_mark3, subject_mark4, subject_mark5, grade, sgpa, cgpa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
                                (row['semester_id'], row['name'], row['uid'], row['subject_mark1'], row['subject_mark2'], row['subject_mark3'], row['subject_mark4'], row['subject_mark5'], row['grade'], row['sgpa'], row['cgpa']))
             mysql.connection.commit()
