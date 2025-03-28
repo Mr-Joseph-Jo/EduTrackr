@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify, session, render_template, redirect, url_for, send_from_directory
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+from dotenv import load_dotenv
 from flask_cors import CORS
 import os
 import pandas as pd
+
+load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enables frontend to call backend
@@ -11,10 +15,10 @@ CORS(app, supports_credentials=True)  # Enables frontend to call backend
 app.secret_key = 'secret_key'
 
 # Database Configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Jo20042004!'
-app.config['MYSQL_DB'] = 'edutrackr'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'localhost')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD', 'password')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB', 'edutrackr')
 
 mysql = MySQL(app)
 
