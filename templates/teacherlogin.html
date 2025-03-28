@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduTrackr Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/teacherlogin.css') }}">
+
   <style>
     /* General Reset */
     * {
@@ -37,7 +41,6 @@
       top: 0;
       z-index: 1000;
     }
-
     header .logo img {
       width: 200px;
       margin-right: 10px;
@@ -69,6 +72,7 @@
       transform: translateY(-5px);
       padding-bottom: 3px;
     }
+
     /* Login Container with Glassmorphism Effect */
     .container {
       max-width: 400px;
@@ -211,34 +215,41 @@
 <body>
   <header>
     <div class="logo">
-        <a href="home.html">
-            <img src="Assets/logo.png" alt="EduCode Tracker Logo">
-        </a>    
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EduCode Tracker Logo">
+      </a>    
     </div>
     <nav>
-        <a href="home.html">Home</a>
-        <a href="loginpage.html">Login</a>
-        <a href="aboutus.html">About Us</a>
-        <a href="contactus.html">Contact Us</a>
-    </nav>
-</header>
-
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('about_us') }}">About Us</a>
+      <a href="{{ url_for('contact_us') }}">Contact Us</a>
+      {% if session.get('loggedin') %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login_page') }}">Login</a>
+      {% endif %}
+  </nav>
+  </header>
 
   <div class="container">
     <div class="logo">
-      <img src="Assets/admin.png" alt="User Avatar">
+      <img src="{{ url_for('static', filename='images/teacher.png') }}" alt="User Avatar">
     </div>
     <div class="login-form">
-      <form>
+      <form action="{{ url_for('teacher_login') }}" method="post">
+        {% if msg %}
+          <p style="color: red;">{{ msg }}</p>
+        {% endif %}
         <div class="input-group">
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Enter Username">
+          <input type="text" name="username" id="username" placeholder="Enter Username" required>
         </div>
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter Password">
+          <input type="password" name="password" id="password" placeholder="Enter Password" required>
         </div>
-        <button type="button" class="btn" onclick="login()">Login</button>
+        <button type="submit" class="btn">Login</button>
         <a href="#" class="reset-password">Forgot Password?</a>
       </form>
     </div>
@@ -252,8 +263,8 @@
       if (username === "" || password === "") {
         alert("Please fill in both fields.");
       } else {
-        // Redirect to admin.html
-        window.location.href = "admin.html";
+        // Redirect to teacher.html
+        window.location.href = "{{ url_for('teacher_dashboard') }}";
       }
     }
   </script>

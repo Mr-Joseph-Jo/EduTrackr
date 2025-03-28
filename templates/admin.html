@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <link rel="icon" type="image/png" href="Assets/logo.png">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
     <title>Admin Management Dashboard</title>
     <style>
         * {
@@ -194,21 +195,49 @@ nav a:hover {
             display: inline-block;
         }
     </style>
+    <script>
+        function showPopup(message) {
+            alert(message);
+        }
+
+        function uploadFile(formId, url) {
+            var formData = new FormData(document.getElementById(formId));
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    showPopup(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showPopup('An error occurred while uploading the file.');
+            });
+        }
+    </script>
 </head>
 <body>
     <header>
         <div class="logo">
-            <a href="index.html">
-                <img src="Assets/logo.png" alt="EduCode Tracker Logo">
-              </a>
-                    </div>
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EduCode Tracker Logo">
+            </a>
+        </div>
         <nav>
-          <a href="index.html">Home</a>
-          <a href="loginpage.html">Login</a>
-          <a href="aboutus.html">About Us</a>
-          <a href="contactus.html">Contact Us</a>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('about_us') }}">About Us</a>
+            <a href="{{ url_for('contact_us') }}">Contact Us</a>
+            {% if session.get('loggedin') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login_page') }}">Login</a>
+            {% endif %}
         </nav>
-      </header>
+    </header>
 
     <div id="particles-js"></div>
 
@@ -221,7 +250,7 @@ nav a:hover {
             <button onclick="showSection('classes')">Manage Classes</button>
             <button onclick="showSection('batches')">Manage Batches</button>
             <button onclick="showSection('teachers')">Manage Teachers</button>
-            <button onclick="window.location.href='teacher.html'">View Performance Analysis</button>
+            <button onclick="window.location.href='{{ url_for('admin_to_teacher') }}'">View Performance Analysis</button>
 
         </div>
 
@@ -229,14 +258,14 @@ nav a:hover {
                 <!-- Manage Classes Section -->
                 <div id="classes" class="form-section">
                     <h2>Manage Classes</h2>
-                    <form>
+                    <form id="classUploadForm" onsubmit="event.preventDefault(); uploadFile('classUploadForm', '/upload_class');">
                         <label for="batch">Choose Batch:</label>
                         <select id="batch" required>
                             <option value="">-- Select Batch --</option>
-                            <option value="Batch 1">2020-2024</option>
-                            <option value="Batch 2">2021-2025</option>
-                            <option value="Batch 2">2022-2026</option>
-                            <option value="Batch 2">2023-2027</option>
+                            <option value="20-24">2020-2024</option>
+                            <option value="21-25">2021-2025</option>
+                            <option value="22-26">2022-2026</option>
+                            <option value="23-27">2023-2027</option>
                         </select>
         
                         <label for="semester">Choose Semester:</label>
@@ -247,7 +276,7 @@ nav a:hover {
                         </select>
         
                         <label for="file">Upload File:</label>
-                        <input type="file" id="file" required>
+                        <input type="file" id="file" name="file" required>
         
                         <button type="submit" class="submit">Upload</button>
                     </form>
@@ -256,18 +285,18 @@ nav a:hover {
                 <!-- Manage Batches Section -->
                 <div id="batches" class="form-section">
                     <h2>Manage Batches</h2>
-                    <form>
+                    <form id="batchUploadForm" onsubmit="event.preventDefault(); uploadFile('batchUploadForm', '/upload_batch');">
                         <label for="batch">Choose Batch(Year):</label>
-                        <select id="batch" required>
+                        <select id="batch" name="batch" required>
                             <option value="">-- Select Batch --</option>
-                            <option value="Batch 1">2020-2024</option>
-                            <option value="Batch 1">2021-2025</option>
-                            <option value="Batch 1">2022-2026</option>
-                            <option value="Batch 2">2023-2027</option>
+                            <option value="24">2020-2024</option>
+                            <option value="25">2021-2025</option>
+                            <option value="26">2022-2026</option>
+                            <option value="27">2023-2027</option>
                         </select>
         
                         <label for="file">Upload File:</label>
-                        <input type="file" id="file" required>
+                        <input type="file" id="file" name="file" required>
         
                         <button type="submit" class="submit">Upload</button>
                     </form>
@@ -276,18 +305,18 @@ nav a:hover {
                 <!-- Manage Teachers Section -->
                 <div id="teachers" class="form-section">
                     <h2>Manage Teachers</h2>
-                    <form>
+                    <form action="{{ url_for('add_teacher') }}" method="post">
                         <label for="name">Teacher's Name:</label>
-                        <input type="text" id="name" placeholder="Enter Teacher's Name" required>
+                        <input type="text" id="name" name="name" placeholder="Enter Teacher's Name" required>
         
                         <label for="department">Department:</label>
-                        <input type="text" id="department" placeholder="Enter Department" required>
+                        <input type="text" id="department" name="department" placeholder="Enter Department" required>
         
                         <label for="login">Login ID:</label>
-                        <input type="text" id="login" placeholder="Enter Login ID" required>
+                        <input type="text" id="login" name="login" placeholder="Enter Login ID" required>
         
                         <label for="password">Password:</label>
-                        <input type="password" id="password" placeholder="Enter Password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter Password" required>
         
                         <button type="submit" class="submit">Add Teacher</button>
                     </form>

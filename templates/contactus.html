@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="Assets/logo.png">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contactus.css') }}">
     <title>Contact Us | EduTrackr</title>
     <style>
         * {
@@ -129,15 +130,20 @@
     
     <header>
         <div class="logo">
-            <a href="index.html">
-                <img src="Assets/logo.png" alt="EduTrackr Logo">
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EduTrackr Logo">
             </a>
         </div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="loginpage.html">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="contactus.html">Contact Us</a>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('about_us') }}">About Us</a>
+            <a href="{{ url_for('contact_us') }}">Contact Us</a>
+            {% if session.get('loggedin') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login_page') }}">Login</a>
+            {% endif %}
         </nav>
     </header>
     

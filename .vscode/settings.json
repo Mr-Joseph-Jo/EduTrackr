@@ -1,0 +1,32 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "edutrackr",
+            "database": "EduTrackr",
+            "username": "root",
+            "password": "Jo20042004!"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "199.59.243.225",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "hosting",
+            "database": "sql212.alchosting.xyz",
+            "username": "alcy_38489182",
+            "password": "7kTmdrt9DOQibLh"
+        }
+    ]
+}
