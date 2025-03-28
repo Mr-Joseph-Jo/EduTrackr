@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, render_template, redirect, url_for
+from flask import Flask, request, jsonify, session, render_template, redirect, url_for, send_from_directory
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from flask_cors import CORS
@@ -252,6 +252,14 @@ def upload_class():
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
 
 
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory("static", "robots.txt")
+
+
+@app.route('/sitemap.xml')
+def serve_xml():
+    return send_from_directory('static', 'sitemap.xml')
 
 # Run Flask App
 if __name__ == '__main__':
