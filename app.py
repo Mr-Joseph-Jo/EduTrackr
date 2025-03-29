@@ -39,7 +39,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM admin_login WHERE username = %s AND password = %s', (username, password))
+        cursor.execute('SELECT * FROM adminlogin WHERE username = %s AND password = %s', (username, password))
         record = cursor.fetchone()
         cursor.close()
         if record:
@@ -150,7 +150,9 @@ def add_teacher():
         password = request.form['password']
         
         cursor = mysql.connection.cursor()
-        cursor.execute('INSERT INTO teacher (teacher_name, department) VALUES (%s, %s)', (name, department))
+        cursor.execute('INSERT INTO teacher (teacher_name, department, login_id, password) VALUES (%s, %s, %s, %s)',
+                       (name, department, login, password))
+
         teacher_id = cursor.lastrowid
         cursor.execute('INSERT INTO teacher_login (teacher_id, username, password) VALUES (%s, %s, %s)', (teacher_id, login, password))
         mysql.connection.commit()
@@ -213,8 +215,8 @@ def upload_batch():
                     batch_id = new_batch_id
                 
                 # Insert data into batch_students table with batch_student_id from Excel file
-                cursor.execute('INSERT INTO batch_students (batch_student_id, batch_id, student_name, uid, email) VALUES (%s, %s, %s, %s, %s)', 
-                               (row['batch_student_id'], batch_id, row['student_name'], row['uid'], row['email']))
+                cursor.execute('INSERT INTO batch_students (batch_id, student_name, uid, email) VALUES (%s, %s, %s, %s)', 
+                               (row['batch_id'], row['student_name'], row['uid'], row['email']))
             mysql.connection.commit()
             cursor.close()
             return jsonify({'message': 'File successfully uploaded and database updated'}), 200
@@ -226,35 +228,101 @@ def upload_batch():
 def upload_class():
     if 'file' not in request.files:
         return jsonify({'message': 'No file part'}), 400
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({'message': 'No selected file'}), 400
+
     if file:
         filename = file.filename
         file_path = os.path.join(app.config['CLASS_FOLDER'], filename)
         file.save(file_path)
-        
+
         try:
             df = pd.read_excel(file_path)
+
+            # Normalize column names (strip spaces and make lowercase)
+            df.columns = df.columns.str.strip().str.lower()
+
+            # Ensure required columns exist
+            required_columns = {'uid', 'batch', 'semester_id', 'semester_name', 'name'}
+            if not required_columns.issubset(df.columns):
+                return jsonify({'message': 'Missing required columns in the file'}), 400
+
             cursor = mysql.connection.cursor()
+
             for index, row in df.iterrows():
-                # Check if semester_id exists in semester table
-                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (row['semester_id'],))
+                semester_id = row['semester_id']
+
+                # Validate semester_id
+                if pd.isna(semester_id) or not isinstance(semester_id, (int, float)):
+                    return jsonify({'message': f'Invalid Semester ID at row {index + 2}'}), 400
+
+                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (int(semester_id),))
                 semester = cursor.fetchone()
-                
-                # If semester_id does not exist, return an error
                 if not semester:
-                    return jsonify({'message': f'Semester ID {row["semester_id"]} does not exist'}), 400
-                
-                # Insert data into students table
-                cursor.execute('INSERT INTO students (semester_id, name, uid, subject_mark1, subject_mark2, subject_mark3, subject_mark4, subject_mark5, grade, sgpa, cgpa) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
-                               (row['semester_id'], row['name'], row['uid'], row['subject_mark1'], row['subject_mark2'], row['subject_mark3'], row['subject_mark4'], row['subject_mark5'], row['grade'], row['sgpa'], row['cgpa']))
+                    return jsonify({'message': f'Semester ID {int(semester_id)} does not exist'}), 400
+
+                # Determine target table
+                table_name = 's1' if int(semester_id) == 1 else 's2' if int(semester_id) == 2 else None
+                if not table_name:
+                    return jsonify({'message': f'Invalid semester ID {int(semester_id)}'}), 400
+
+                # Define column mappings for each table
+                if table_name == 's1':
+                    query = f'''
+                        INSERT INTO {table_name} (
+                            UID, Batch, Semester_id, Semester_name, Name, 
+                            LAC_Marks, LAC_Grade, Engg_Chem_Marks, Engg_Chem_Grade, Engg_Graphics_Marks, Engg_Graphics_Grade, 
+                            Basics_CE_ME_Marks, Basics_CE_ME_Grade, LS_Marks, LS_Grade, Chem_Lab_Marks, Chem_Lab_Grade, 
+                            Workshop_Marks, Workshop_Grade, sgpa, cgpa
+                        ) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    '''
+                    values = (
+                        row.get('uid'), row.get('batch'), int(semester_id), row.get('semester_name'), row.get('name'),
+                        row.get('lac_marks', 0), row.get('lac_grade', ''),
+                        row.get('engg_chem_marks', 0), row.get('engg_chem_grade', ''),
+                        row.get('engg_graphics_marks', 0), row.get('engg_graphics_grade', ''),
+                        row.get('basics_ce_me_marks', 0), row.get('basics_ce_me_grade', ''),
+                        row.get('ls_marks', 0), row.get('ls_grade', ''),
+                        row.get('chem_lab_marks', 0), row.get('chem_lab_grade', ''),
+                        row.get('workshop_marks', 0), row.get('workshop_grade', ''),
+                        row.get('sgpa', 0), row.get('cgpa', 0)
+                    )
+                elif table_name == 's2':
+                    query = f'''
+                        INSERT INTO {table_name} (
+                            UID, Batch, Semester_id, Semester_name, Name,
+                            Vector_calculus_Marks, Vector_calculus_grade, Engg_Physics_Marks, Engg_Physics_grade, 
+                            Engg_Mechanics_Marks, Engg_Mechanics_grade, Professional_Communication_Marks, Professional_Communication_Grade, 
+                            Basics_of_Electronic_and_Electricals_Marks, Basics_of_Electronic_and_Electricals_grade,
+                            Programming_in_C_Marks, Programming_in_C_grade, engg_physics_lab_Marks, engg_physics_lab_grade, 
+                            Electrical_electronic_lab_mark, Electrical_electronic_lab_grade, sgpa, cgpa
+                        ) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    '''
+                    values = (
+                        row.get('uid'), row.get('batch'), int(semester_id), row.get('semester_name'), row.get('name'),
+                        row.get('vector_calculus_marks', 0), row.get('vector_calculus_grade', ''),
+                        row.get('engg_physics_marks', 0), row.get('engg_physics_grade', ''),
+                        row.get('engg_mechanics_marks', 0), row.get('engg_mechanics_grade', ''),
+                        row.get('professional_communication_marks', 0), row.get('professional_communication_grade', ''),
+                        row.get('basics_of_electronic_and_electricals_marks', 0), row.get('basics_of_electronic_and_electricals_grade', ''),
+                        row.get('programming_in_c_marks', 0), row.get('programming_in_c_grade', ''),
+                        row.get('engg_physics_lab_marks', 0), row.get('engg_physics_lab_grade', ''),
+                        row.get('electrical_electronic_lab_mark', 0), row.get('electrical_electronic_lab_grade', ''),
+                        row.get('sgpa', 0), row.get('cgpa', 0)
+                    )
+
+                cursor.execute(query, values)
+
             mysql.connection.commit()
             cursor.close()
-            return jsonify({'message': 'File successfully uploaded and database updated'}), 200
+            return jsonify({'message': f'File successfully uploaded to {table_name} and database updated'}), 200
+
         except Exception as e:
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
-
 
 @app.route("/robots.txt")
 def robots():
