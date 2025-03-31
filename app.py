@@ -244,7 +244,8 @@ def upload_class():
             # Normalize column names (strip spaces and make lowercase)
             df.columns = df.columns.str.strip().str.lower()
 
-            # Ensure required columns exist
+            print("Column Names in File:", df.columns)  # Debugging line
+
             required_columns = {'uid', 'batch', 'semester_id', 'semester_name', 'name'}
             if not required_columns.issubset(df.columns):
                 return jsonify({'message': 'Missing required columns in the file'}), 400
@@ -252,69 +253,108 @@ def upload_class():
             cursor = mysql.connection.cursor()
 
             for index, row in df.iterrows():
-                semester_id = row['semester_id']
+                print("Processing Row:", row.to_dict())  # Debugging line
 
-                # Validate semester_id
+                semester_id = row.get('semester_id')
                 if pd.isna(semester_id) or not isinstance(semester_id, (int, float)):
                     return jsonify({'message': f'Invalid Semester ID at row {index + 2}'}), 400
 
-                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (int(semester_id),))
+                semester_id = int(semester_id)
+
+                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
                 semester = cursor.fetchone()
                 if not semester:
-                    return jsonify({'message': f'Semester ID {int(semester_id)} does not exist'}), 400
+                    return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
 
                 # Determine target table
-                table_name = 's1' if int(semester_id) == 1 else 's2' if int(semester_id) == 2 else None
+                table_map = {1: 's1', 2: 's2', 3: 's3', 4: 's4', 5: 's5' , 6: 's6'}
+                table_name = table_map.get(semester_id)
                 if not table_name:
-                    return jsonify({'message': f'Invalid semester ID {int(semester_id)}'}), 400
+                    return jsonify({'message': f'Invalid semester ID {semester_id}'}), 400
 
-                # Define column mappings for each table
-                if table_name == 's1':
-                    query = f'''
-                        INSERT INTO {table_name} (
-                            UID, Batch, Semester_id, Semester_name, Name, 
-                            LAC_Marks, LAC_Grade, Engg_Chem_Marks, Engg_Chem_Grade, Engg_Graphics_Marks, Engg_Graphics_Grade, 
-                            Basics_CE_ME_Marks, Basics_CE_ME_Grade, LS_Marks, LS_Grade, Chem_Lab_Marks, Chem_Lab_Grade, 
-                            Workshop_Marks, Workshop_Grade, sgpa, cgpa
-                        ) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    '''
-                    values = (
-                        row.get('uid'), row.get('batch'), int(semester_id), row.get('semester_name'), row.get('name'),
-                        row.get('lac_marks', 0), row.get('lac_grade', ''),
-                        row.get('engg_chem_marks', 0), row.get('engg_chem_grade', ''),
-                        row.get('engg_graphics_marks', 0), row.get('engg_graphics_grade', ''),
-                        row.get('basics_ce_me_marks', 0), row.get('basics_ce_me_grade', ''),
-                        row.get('ls_marks', 0), row.get('ls_grade', ''),
-                        row.get('chem_lab_marks', 0), row.get('chem_lab_grade', ''),
-                        row.get('workshop_marks', 0), row.get('workshop_grade', ''),
-                        row.get('sgpa', 0), row.get('cgpa', 0)
-                    )
-                elif table_name == 's2':
-                    query = f'''
-                        INSERT INTO {table_name} (
-                            UID, Batch, Semester_id, Semester_name, Name,
-                            Vector_calculus_Marks, Vector_calculus_grade, Engg_Physics_Marks, Engg_Physics_grade, 
-                            Engg_Mechanics_Marks, Engg_Mechanics_grade, Professional_Communication_Marks, Professional_Communication_Grade, 
-                            Basics_of_Electronic_and_Electricals_Marks, Basics_of_Electronic_and_Electricals_grade,
-                            Programming_in_C_Marks, Programming_in_C_grade, engg_physics_lab_Marks, engg_physics_lab_grade, 
-                            Electrical_electronic_lab_mark, Electrical_electronic_lab_grade, sgpa, cgpa
-                        ) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    '''
-                    values = (
-                        row.get('uid'), row.get('batch'), int(semester_id), row.get('semester_name'), row.get('name'),
-                        row.get('vector_calculus_marks', 0), row.get('vector_calculus_grade', ''),
-                        row.get('engg_physics_marks', 0), row.get('engg_physics_grade', ''),
-                        row.get('engg_mechanics_marks', 0), row.get('engg_mechanics_grade', ''),
-                        row.get('professional_communication_marks', 0), row.get('professional_communication_grade', ''),
-                        row.get('basics_of_electronic_and_electricals_marks', 0), row.get('basics_of_electronic_and_electricals_grade', ''),
-                        row.get('programming_in_c_marks', 0), row.get('programming_in_c_grade', ''),
-                        row.get('engg_physics_lab_marks', 0), row.get('engg_physics_lab_grade', ''),
-                        row.get('electrical_electronic_lab_mark', 0), row.get('electrical_electronic_lab_grade', ''),
-                        row.get('sgpa', 0), row.get('cgpa', 0)
-                    )
+                # **Ensure correct column names for each semester**
+                column_mappings = {
+                    "s1": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'lac_marks', 'lac_grade', 'engg_chem_marks', 'engg_chem_grade', 
+                        'engg_graphics_marks', 'engg_graphics_grade', 'basics_ce_me_marks', 
+                        'basics_ce_me_grade', 'ls_marks', 'ls_grade', 'chem_lab_marks', 
+                        'chem_lab_grade', 'workshop_marks', 'workshop_grade', 'sgpa', 'cgpa'
+                    ],
+                    "s2": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'vector_calculus_marks', 'vector_calculus_grade', 'engg_physics_marks', 
+                        'engg_physics_grade', 'engg_mechanics_marks', 'engg_mechanics_grade', 
+                        'professional_communication_marks', 'professional_communication_grade', 
+                        'basics_of_electronic_and_electricals_marks', 'basics_of_electronic_and_electricals_grade', 
+                        'programming_in_c_marks', 'programming_in_c_grade', 'engg_physics_lab_marks', 
+                        'engg_physics_lab_grade', 'electrical_electronic_lab_mark', 'electrical_electronic_lab_grade', 
+                        'sgpa', 'cgpa'
+                    ],
+                    "s3": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'dms_marks', 'dms_grade', 'ds_marks', 'ds_grade', 
+                        'dsd_marks', 'dsd_grade', 'python_marks', 'python_grade', 
+                        'design_and_engineering_marks', 'design_and_engineering_grade', 
+                        'sustainable_engineering_marks', 'sustainable_engineering_grade', 
+                        'ds_lab_marks', 'ds_lab_grade', 'python_lab_mark', 'python_lab_grade', 
+                        'sgpa', 'cgpa'
+                    ],
+                    "s4": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'principles_of_object_oriented_techniques_Marks', 'principles_of_object_oriented_techniques_grade',
+                        'graph_theory_Marks', 'graph_theory_grade',
+                        'computer_organization_Marks', 'computer_organization_grade',
+                        'database_management_systems_Marks', 'database_management_systems_grade',
+                        'professional_ethics_Marks', 'professional_ethics_grade',
+                        'constitution_of_india_Marks', 'constitution_of_india_grade',
+                        'object_oriented_techniques_lab_Marks', 'object_oriented_techniques_lab_grade',
+                        'database_management_systems_lab_Marks', 'database_management_systems_lab_grade',
+                        'sgpa', 'cgpa'
+                    ],
+                    "s5": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'web_application_development_marks', 'web_application_development_grade',
+                        'operating_system_concepts_marks', 'operation_system_concepts_grade',
+                        'data_communication_and_networking_marks', 'data_communication_and_networking_grade',
+                        'formal_languages_and_automata_theory_marks', 'formal_languages_and_automata_theory_grade',
+                        'management_for_software_engineers_marks', 'management_for_software_engineers_grade',
+                        'disaster_management_marks', 'disaster_management_grade',
+                        'operating_system_and_network_programming_lab_marks', 'operating_system_and_network_programming_lab_grade',
+                        'web_application_development_lab_marks', 'web_application_development_lab_grade',
+                        'sgpa', 'cgpa'
+                    ],
+                    "s6": [
+                        'uid', 'batch', 'semester_id', 'semester_name', 'name',
+                        'internetworking_with_TCP_IP_Marks', 'internetworking_with_TCP_IP_Grade',
+                        'algorithm_analysis_and_design_Marks', 'algorithm_analysis_and_design_Grade',
+                        'data_science_Marks', 'data_science_Grade',
+                        'soft_computing_Marks', 'soft_computing_Grade',
+                        'digital_image_processing_Marks', 'digital_image_processing_Grade',
+                        'industrial_economics_and_foreign_trade_Marks', 'industrial_economics_and_foreign_trade_Grade',
+                        'computer_networks_lab_Marks', 'computer_networks_lab_Grade',
+                        'miniproject_Marks', 'miniproject_Grade',
+                        'sgpa', 'cgpa'
+                    ]
+                }
 
+                if table_name not in column_mappings:
+                    return jsonify({'message': f'Invalid table name {table_name}'}), 400
+
+                # **Extract relevant columns based on semester**
+                columns = column_mappings[table_name]
+                values = tuple(
+                    0 if (pd.isna(row.get(col)) or row.get(col) == '') and ("marks" in col.lower() or "sgpa" in col.lower() or "cgpa" in col.lower()) 
+                    else row.get(col, '') 
+                    for col in columns
+                )
+
+
+                # **SQL query with dynamic table name**
+                query = f'''
+                    INSERT INTO {table_name} ({', '.join(columns)}) 
+                    VALUES ({', '.join(['%s'] * len(columns))})
+                '''
                 cursor.execute(query, values)
 
             mysql.connection.commit()
