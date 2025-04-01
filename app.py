@@ -240,11 +240,9 @@ def upload_class():
 
         try:
             df = pd.read_excel(file_path)
-
-            # Normalize column names (strip spaces and make lowercase)
             df.columns = df.columns.str.strip().str.lower()
 
-            print("Column Names in File:", df.columns)  # Debugging line
+            print(df.head())  # Debugging: Print the first few rows
 
             required_columns = {'uid', 'batch', 'semester_id', 'semester_name', 'name'}
             if not required_columns.issubset(df.columns):
@@ -252,6 +250,7 @@ def upload_class():
 
             cursor = mysql.connection.cursor()
 
+            duplicate_uids = set()
             for index, row in df.iterrows():
                 print("Processing Row:", row.to_dict())  # Debugging line
 
@@ -266,12 +265,10 @@ def upload_class():
                 if not semester:
                     return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
 
-                # Determine target table
-                table_map = {1: 's1', 2: 's2', 3: 's3', 4: 's4', 5: 's5' , 6: 's6'}
+                table_map = {1: 's1', 2: 's2', 3: 's3', 4: 's4', 5: 's5', 6: 's6', 7: 's7', 8: 's8'}
                 table_name = table_map.get(semester_id)
                 if not table_name:
                     return jsonify({'message': f'Invalid semester ID {semester_id}'}), 400
-
                 # **Ensure correct column names for each semester**
                 column_mappings = {
                     "s1": [
@@ -302,14 +299,14 @@ def upload_class():
                     ],
                     "s4": [
                         'uid', 'batch', 'semester_id', 'semester_name', 'name',
-                        'principles_of_object_oriented_techniques_Marks', 'principles_of_object_oriented_techniques_grade',
-                        'graph_theory_Marks', 'graph_theory_grade',
-                        'computer_organization_Marks', 'computer_organization_grade',
-                        'database_management_systems_Marks', 'database_management_systems_grade',
-                        'professional_ethics_Marks', 'professional_ethics_grade',
-                        'constitution_of_india_Marks', 'constitution_of_india_grade',
-                        'object_oriented_techniques_lab_Marks', 'object_oriented_techniques_lab_grade',
-                        'database_management_systems_lab_Marks', 'database_management_systems_lab_grade',
+                        'principles_of_object_oriented_techniques_marks', 'principles_of_object_oriented_techniques_grade',
+                        'graph_theory_marks', 'graph_theory_grade',
+                        'computer_organization_marks', 'computer_organization_grade',
+                        'database_management_systems_marks', 'database_management_systems_grade',
+                        'professional_ethics_marks', 'professional_ethics_grade',
+                        'constitution_of_india_marks', 'constitution_of_india_grade',
+                        'object_oriented_techniques_lab_marks', 'object_oriented_techniques_lab_grade',
+                        'database_management_systems_lab_marks', 'database_management_systems_lab_grade',
                         'sgpa', 'cgpa'
                     ],
                     "s5": [
@@ -326,44 +323,99 @@ def upload_class():
                     ],
                     "s6": [
                         'uid', 'batch', 'semester_id', 'semester_name', 'name',
-                        'internetworking_with_TCP_IP_Marks', 'internetworking_with_TCP_IP_Grade',
-                        'algorithm_analysis_and_design_Marks', 'algorithm_analysis_and_design_Grade',
-                        'data_science_Marks', 'data_science_Grade',
-                        'soft_computing_Marks', 'soft_computing_Grade',
-                        'digital_image_processing_Marks', 'digital_image_processing_Grade',
-                        'industrial_economics_and_foreign_trade_Marks', 'industrial_economics_and_foreign_trade_Grade',
-                        'computer_networks_lab_Marks', 'computer_networks_lab_Grade',
-                        'miniproject_Marks', 'miniproject_Grade',
+                        'internetworking_with_tcp_ip_marks', 'internetworking_with_tcp_ip_grade',
+                        'algorithm_analysis_and_design_marks', 'algorithm_analysis_and_design_grade',
+                        'data_science_marks', 'data_science_grade',
+                        'soft_computing_marks', 'soft_computing_grade',
+                        'digital_image_processing_marks', 'digital_image_processing_grade',
+                        'industrial_economics_and_foreign_trade_marks', 'industrial_economics_and_foreign_trade_grade',
+                        'computer_networks_lab_marks', 'computer_networks_lab_grade',
+                        'miniproject_marks', 'miniproject_grade',
                         'sgpa', 'cgpa'
+                    ],
+                    "s7": [
+                        "uid", "batch", "semester_id", "semester_name", "name",
+                        "data_analytics_marks", "data_analytics_grade",
+                        "mobile_computing_marks", "mobile_computing_grade",
+                        "artificial_intelligence_marks", "artificial_intelligence_grade",
+                        "industrial_safety_engineering_marks", "industrial_safety_engineering_grade",
+                        "data_analytics_lab_marks", "data_analytics_lab_grade",
+                        "seminar_marks", "seminar_grade",
+                        "project_phase1_marks", "project_phase1_grade",
+                        "sgpa", "cgpa"
+                    ],
+                    "s8": [
+                        "uid", "batch", "semester_id", "semester_name", "name",
+                        "cryptography_and_network_security_marks", "cryptography_and_network_security_grade",
+                        "computer_vision_marks", "computer_vision_grade",
+                        "cloud_computing_marks", "cloud_computing_grade",
+                        "internet_of_things_marks", "internet_of_things_grade",
+                        "adhoc_and_wireless_sensor_networks_marks", "adhoc_and_wireless_sensor_networks_grade",
+                        "software_architecture_marks", "software_architecture_grade",
+                        "natural_language_processing_marks", "natural_language_processing_grade",
+                        "project_phase2_marks", "project_phase2_grade",
+                        "sgpa", "cgpa"
                     ]
+
                 }
 
-                if table_name not in column_mappings:
-                    return jsonify({'message': f'Invalid table name {table_name}'}), 400
 
-                # **Extract relevant columns based on semester**
+                duplicate_uids = set()
+            for index, row in df.iterrows():
+                print("Processing Row:", row.to_dict())  # Debugging line
+
+                semester_id = row.get('semester_id')
+                if pd.isna(semester_id) or not isinstance(semester_id, (int, float)):
+                    return jsonify({'message': f'Invalid Semester ID at row {index + 2}'}), 400
+
+                semester_id = int(semester_id)
+
+                # Check if semester ID exists in the database
+                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
+                semester = cursor.fetchone()
+                if not semester:
+                    return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
+
+                # Determine the table name and column structure
+                table_name = table_map.get(semester_id)
+                if not table_name or table_name not in column_mappings:
+                    return jsonify({'message': f'Invalid semester ID or table name {semester_id}'}), 400
+
                 columns = column_mappings[table_name]
-                values = tuple(
-                    0 if (pd.isna(row.get(col)) or row.get(col) == '') and ("marks" in col.lower() or "sgpa" in col.lower() or "cgpa" in col.lower()) 
-                    else row.get(col, '') 
-                    for col in columns
-                )
 
+                # Check for duplicate `uid` in the corresponding table
+                uid = row.get('uid')
+                cursor.execute(f'SELECT * FROM {table_name} WHERE uid = %s', (uid,))
+                if cursor.fetchone():
+                    duplicate_uids.add(uid)
+                    continue  # Skip duplicate rows
 
-                # **SQL query with dynamic table name**
+                # Clean up and preprocess numeric fields
+                for col in df.columns:
+                    if "marks" in col.lower() or "sgpa" in col.lower() or "cgpa" in col.lower():
+                        df[col] = pd.to_numeric(df[col], errors='coerce')  # Convert non-numeric to NaN
+                        df[col] = df[col].fillna(0)  # Fill NaN with 0
+
+                # Prepare and execute the insert query
                 query = f'''
                     INSERT INTO {table_name} ({', '.join(columns)}) 
                     VALUES ({', '.join(['%s'] * len(columns))})
                 '''
+                values = tuple(row[col] for col in columns)
                 cursor.execute(query, values)
+
+            if duplicate_uids:
+                print("Duplicate UIDs Found:", duplicate_uids)  # Debugging: List duplicate UIDs
 
             mysql.connection.commit()
             cursor.close()
-            return jsonify({'message': f'File successfully uploaded to {table_name} and database updated'}), 200
+            return jsonify({
+                'message': 'File successfully uploaded and database updated',
+                'duplicates': list(duplicate_uids)
+            }), 200
 
         except Exception as e:
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
-
 @app.route("/robots.txt")
 def robots():
     return send_from_directory("static", "robots.txt")

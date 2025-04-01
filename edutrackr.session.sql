@@ -10,6 +10,9 @@ VALUES
 (6, '2021-2025', 'S6'),
 (7, '2021-2025', 'S7'),
 (8, '2021-2025', 'S8');
+
+
+
 CREATE TABLE s1 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
@@ -36,7 +39,7 @@ CREATE TABLE s1 (
 );
 
 CREATE TABLE s2 (
-    UID VARCHAR(50),
+    UID VARCHAR(50) primary key,
     Batch VARCHAR(50),
     Semester_id INT,
     Semester_name VARCHAR(50),
@@ -61,6 +64,7 @@ CREATE TABLE s2 (
     cgpa FLOAT,
     FOREIGN KEY (semester_id) REFERENCES sem(semester_id)
 );
+
 CREATE TABLE s3 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
@@ -87,6 +91,7 @@ CREATE TABLE s3 (
     cgpa FLOAT,
     FOREIGN KEY (semester_id) REFERENCES sem(semester_id)
 );
+
 CREATE TABLE s4 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
@@ -113,6 +118,8 @@ CREATE TABLE s4 (
     cgpa FLOAT NULL,
     FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
 );
+
+
 CREATE TABLE s5 (
     UID VARCHAR(10) PRIMARY KEY,
     Batch VARCHAR(10),
@@ -120,24 +127,25 @@ CREATE TABLE s5 (
     Semester_Name VARCHAR(5),
     Name VARCHAR(100),
     Web_Application_Development_Marks INT,
-    Web_Application_Development_grade CHAR(1),
+    Web_Application_Development_grade VARCHAR(5),
     Operating_System_Concepts_Marks INT,
-    Operation_System_Concepts_grade CHAR(1),
+    Operation_System_Concepts_grade VARCHAR(5),
     Data_Communication_and_Networking_Marks INT,
-    Data_Communication_and_Networking_grade CHAR(1),
+    Data_Communication_and_Networking_grade VARCHAR(5),
     Formal_Languages_and_Automata_Theory_Marks INT,
-    Formal_Languages_and_Automata_Theory_grade CHAR(1),
+    Formal_Languages_and_Automata_Theory_grade VARCHAR(5),
     Management_For_Software_Engineers_Marks INT,
-    Management_For_Software_Engineers_grade CHAR(1),
+    Management_For_Software_Engineers_grade VARCHAR(5),
     Disaster_Management_Marks INT,
-    Disaster_Management_grade CHAR(1),
+    Disaster_Management_grade VARCHAR(5),
     Operating_System_and_Network_Programming_Lab_Marks INT,
-    Operating_System_and_Network_Programming_Lab_grade CHAR(1),
+    Operating_System_and_Network_Programming_Lab_grade VARCHAR(5),
     Web_Application_Development_Lab_Marks INT,
-    Web_Application_Development_Lab_grade CHAR(1),
+    Web_Application_Development_Lab_grade VARCHAR(5),
     SGPA DECIMAL(3,1),
     CGPA DECIMAL(3,1)
 );
+
 CREATE TABLE s6 (
     UID VARCHAR(10) PRIMARY KEY,
     Batch VARCHAR(10),
@@ -145,21 +153,70 @@ CREATE TABLE s6 (
     Semester_Name VARCHAR(5),
     Name VARCHAR(100),
     Internetworking_with_TCP_IP_Marks INT,
-    Internetworking_with_TCP_IP_Grade CHAR(1),
+    Internetworking_with_TCP_IP_Grade VARCHAR(5),
     Algorithm_Analysis_and_Design_Marks INT,
-    Algorithm_Analysis_and_Design_Grade CHAR(1),
+    Algorithm_Analysis_and_Design_Grade VARCHAR(5),
     Data_Science_Marks INT,
-    Data_Science_Grade CHAR(1),
+    Data_Science_Grade VARCHAR(5),
     Soft_Computing_Marks INT,
-    Soft_Computing_Grade CHAR(1),
+    Soft_Computing_Grade VARCHAR(5),
     Digital_Image_Processing_Marks INT,
-    Digital_Image_Processing_Grade CHAR(1),
+    Digital_Image_Processing_Grade VARCHAR(5),
     Industrial_Economics_and_Foreign_Trade_Marks INT,
-    Industrial_Economics_and_Foreign_Trade_Grade CHAR(1),
+    Industrial_Economics_and_Foreign_Trade_Grade VARCHAR(5),
     Computer_Networks_Lab_Marks INT,
-    Computer_Networks_Lab_Grade CHAR(1),
+    Computer_Networks_Lab_Grade VARCHAR(5),
     Miniproject_Marks INT,
-    Miniproject_Grade CHAR(1),
+    Miniproject_Grade VARCHAR(5),
+    SGPA DECIMAL(3,1),
+    CGPA DECIMAL(3,1)
+);
+
+CREATE TABLE s7 (
+    UID VARCHAR(10) primary key,
+    Batch VARCHAR(10),
+    Semester_id INT,
+    Semester_Name VARCHAR(5),
+    Name VARCHAR(100),
+    Data_Analytics_Marks INT,
+    Data_Analytics_Grade CHAR(1),
+    Mobile_Computing_Marks INT,
+    Mobile_Computing_Grade CHAR(1),
+    Artificial_Intelligence_Marks INT,
+    Artificial_Intelligence_Grade CHAR(1),
+    Industrial_Safety_Engineering_Marks INT,
+    Industrial_Safety_Engineering_Grade CHAR(1),
+    Data_Analytics_Lab_Marks INT,
+    Data_Analytics_Lab_Grade CHAR(1),
+    Seminar_Marks INT,
+    Seminar_Grade CHAR(1),
+    Project_Phase1_Marks INT,
+    Project_Phase1_Grade CHAR(1),
+    SGPA DECIMAL(3,1),
+    CGPA DECIMAL(3,1)
+);
+CREATE TABLE s8 (
+    UID VARCHAR(10) primary key,
+    Batch VARCHAR(10),
+    Semester_id INT,
+    Semester_Name VARCHAR(5),
+    Name VARCHAR(100),
+    CRYPTOGRAPHY_AND_NETWORK_SECURITY_Marks INT,
+    CRYPTOGRAPHY_AND_NETWORK_SECURITY_Grade CHAR(1),
+    COMPUTER_VISION_Marks INT,
+    COMPUTER_VISION_Grade CHAR(1),
+    Cloud_Computing_Marks INT,
+    Cloud_Computing_Grade CHAR(1),
+    INTERNET_OF_THINGS_Marks INT,
+    INTERNET_OF_THINGS_Grade CHAR(1),
+    ADHOC_AND_WIRELESS_SENSOR_NETWORKS_Marks INT,
+    ADHOC_AND_WIRELESS_SENSOR_NETWORKS_Grade CHAR(1),
+    SOFTWARE_ARCHITECTURE_Marks INT,
+    SOFTWARE_ARCHITECTURE_Grade CHAR(1),
+    NATURAL_LANGUAGE_PROCESSING_Marks INT,
+    NATURAL_LANGUAGE_PROCESSING_Grade CHAR(1),
+    Project_Phase2_Marks INT,
+    Project_Phase2_Grade CHAR(1),
     SGPA DECIMAL(3,1),
     CGPA DECIMAL(3,1)
 );
