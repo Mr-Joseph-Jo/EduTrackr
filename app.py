@@ -416,6 +416,8 @@ def upload_class():
 
         except Exception as e:
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
+        
+
 @app.route("/robots.txt")
 def robots():
     return send_from_directory("static", "robots.txt")

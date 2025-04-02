@@ -230,62 +230,10 @@
                 <p style="color: white;">Analyze Student Performance</p>
             </div>
     
-            <div class="menu">
-                <div class="menu-item" onclick="showSection('batch-selection')">
-                    <h2>Batch Selection</h2>
-                    <p>Select a batch to begin</p>
-                </div>
-            </div>
-    
-            <div id="batch-selection" class="content-section">
-                <h2 style="color: white;">Select Batch</h2>
-                <div class="form-group">
-                    <label for="batch">Choose Batch:</label>
-                    <select id="batch" onchange="showSemesterOptions()">
-                        <option value="">-- Select Batch --</option>
-                        <option value="Batch 1">Batch 1</option>
-                        <option value="Batch 2">Batch 2</option>
-                    </select>
-                </div>
-    
-                <div id="semester-section" style="display: none;">
-                    <h2 style="color: white;">Select Semester</h2>
-                    <div class="form-group">
-                        <label for="semester">Choose Semester:</label>
-                        <select id="semester" onchange="showAnalysisOptions()">
-                            <option value="">-- Select Semester --</option>
-                            <option value="Sem 1">Semester 1</option>
-                            <option value="Sem 2">Semester 2</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-    
-            <div id="analysis-section" style="display: none;">
-                <h2 style="color: white;">Performance Analysis</h2>
-    
-                <div class="menu">
-                    <div class="menu-item">
-                        <h2>Subjects</h2>
-                        <p>View marks for each subject</p>
-                    </div>
-                    <div class="menu-item">
-                        <h2>Semester Performance</h2>
-                        <p>Analyze overall student performance</p>
-                    </div>
-                    <div class="menu-item">
-                        <h2>CGPA Analysis</h2>
-                        <p>Find toppers and pass/fail counts</p>
-                    </div>
-                </div>
-    
-                <div class="comparison-section">
-                    <h2 style="color: white;">Comparison Options</h2>
-                    <button onclick="alert('Semwise Comparison')">Semester-wise Comparison</button>
-                    <button onclick="alert('Batchwise Comparison')">Batch-wise Comparison</button>
-                </div>
+            <iframe title="sub_s1" width="906px" height="541.25"
+            src="https://app.powerbi.com/reportEmbed?reportId=7b7e423c-ae8b-4669-a3e7-53afab66d57a&autoAuth=true&embeddedDemo=true"
+            frameborder="0" allowFullScreen="true"></iframe>
             
-        </div>
     
         <script>
             function showSection(sectionId) {
