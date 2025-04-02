@@ -13,7 +13,7 @@ VALUES
 
 
 
-CREATE TABLE s1 (
+CREATE TABLE S1 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
     Semester_id INT,
@@ -38,7 +38,7 @@ CREATE TABLE s1 (
     FOREIGN KEY (semester_id) REFERENCES sem(semester_id)
 );
 
-CREATE TABLE s2 (
+CREATE TABLE S2 (
     UID VARCHAR(50) primary key,
     Batch VARCHAR(50),
     Semester_id INT,
@@ -65,7 +65,7 @@ CREATE TABLE s2 (
     FOREIGN KEY (semester_id) REFERENCES sem(semester_id)
 );
 
-CREATE TABLE s3 (
+CREATE TABLE S3 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
     Semester_id INT,
@@ -92,7 +92,7 @@ CREATE TABLE s3 (
     FOREIGN KEY (semester_id) REFERENCES sem(semester_id)
 );
 
-CREATE TABLE s4 (
+CREATE TABLE S4 (
     UID VARCHAR(50),
     Batch VARCHAR(50),
     Semester_id INT,
@@ -120,7 +120,7 @@ CREATE TABLE s4 (
 );
 
 
-CREATE TABLE s5 (
+CREATE TABLE S5 (
     UID VARCHAR(10) PRIMARY KEY,
     Batch VARCHAR(10),
     Semester_id INT,
@@ -146,7 +146,7 @@ CREATE TABLE s5 (
     CGPA DECIMAL(3,1)
 );
 
-CREATE TABLE s6 (
+CREATE TABLE S6 (
     UID VARCHAR(10) PRIMARY KEY,
     Batch VARCHAR(10),
     Semester_id INT,
@@ -172,7 +172,7 @@ CREATE TABLE s6 (
     CGPA DECIMAL(3,1)
 );
 
-CREATE TABLE s7 (
+CREATE TABLE S7 (
     UID VARCHAR(10) primary key,
     Batch VARCHAR(10),
     Semester_id INT,
@@ -195,7 +195,7 @@ CREATE TABLE s7 (
     SGPA DECIMAL(3,1),
     CGPA DECIMAL(3,1)
 );
-CREATE TABLE s8 (
+CREATE TABLE S8 (
     UID VARCHAR(10) primary key,
     Batch VARCHAR(10),
     Semester_id INT,
