@@ -368,6 +368,7 @@ def upload_class():
                 if pd.isna(semester_id) or not isinstance(semester_id, (int, float)):
                     return jsonify({'message': f'Invalid Semester ID at row {index + 2}'}), 400
 
+
                 semester_id = int(semester_id)
 
                 # Check if semester ID exists in the database
