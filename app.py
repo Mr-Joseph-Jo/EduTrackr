@@ -225,6 +225,7 @@ def upload_batch():
             print(f"Error processing file: {str(e)}")  # Debugging statement
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
 
+
 @app.route('/upload_class', methods=['POST'])
 def upload_class():
     if 'file' not in request.files:
