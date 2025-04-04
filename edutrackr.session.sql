@@ -143,7 +143,9 @@ CREATE TABLE S5 (
     Web_Application_Development_Lab_Marks INT,
     Web_Application_Development_Lab_grade VARCHAR(5),
     SGPA DECIMAL(3,1),
-    CGPA DECIMAL(3,1)
+    CGPA DECIMAL(3,1),
+    FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
+
 );
 
 CREATE TABLE S6 (
@@ -155,21 +157,23 @@ CREATE TABLE S6 (
     Internetworking_with_TCP_IP_Marks INT,
     Internetworking_with_TCP_IP_Grade VARCHAR(5),
     Algorithm_Analysis_and_Design_Marks INT,
-    Algorithm_Analysis_and_Design_Grade VARCHAR(5),
+    Algorithm_Analysis_and_Design_Grade VARCHAR(10),
     Data_Science_Marks INT,
-    Data_Science_Grade VARCHAR(5),
+    Data_Science_Grade VARCHAR(10),
     Soft_Computing_Marks INT,
-    Soft_Computing_Grade VARCHAR(5),
+    Soft_Computing_Grade VARCHAR(10),
     Digital_Image_Processing_Marks INT,
-    Digital_Image_Processing_Grade VARCHAR(5),
+    Digital_Image_Processing_Grade VARCHAR(10),
     Industrial_Economics_and_Foreign_Trade_Marks INT,
-    Industrial_Economics_and_Foreign_Trade_Grade VARCHAR(5),
+    Industrial_Economics_and_Foreign_Trade_Grade VARCHAR(10),
     Computer_Networks_Lab_Marks INT,
-    Computer_Networks_Lab_Grade VARCHAR(5),
+    Computer_Networks_Lab_Grade VARCHAR(10),
     Miniproject_Marks INT,
-    Miniproject_Grade VARCHAR(5),
+    Miniproject_Grade VARCHAR(10),
     SGPA DECIMAL(3,1),
-    CGPA DECIMAL(3,1)
+    CGPA DECIMAL(3,1),
+    FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
+
 );
 
 CREATE TABLE S7 (
@@ -193,7 +197,9 @@ CREATE TABLE S7 (
     Project_Phase1_Marks INT,
     Project_Phase1_Grade CHAR(1),
     SGPA DECIMAL(3,1),
-    CGPA DECIMAL(3,1)
+    CGPA DECIMAL(3,1),
+    FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
+
 );
 CREATE TABLE S8 (
     UID VARCHAR(10) primary key,
@@ -218,5 +224,7 @@ CREATE TABLE S8 (
     Project_Phase2_Marks INT,
     Project_Phase2_Grade CHAR(1),
     SGPA DECIMAL(3,1),
-    CGPA DECIMAL(3,1)
+    CGPA DECIMAL(3,1),
+    FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
+
 );

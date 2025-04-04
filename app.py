@@ -39,7 +39,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM adminlogin WHERE username = %s AND password = %s', (username, password))
+        cursor.execute('SELECT * FROM admin_login WHERE username = %s AND password = %s', (username, password))
         record = cursor.fetchone()
         cursor.close()
         if record:
@@ -197,24 +197,25 @@ def upload_batch():
         # Process the Excel file and update the database
         try:
             df = pd.read_excel(file_path)
+            required_columns = {'batch_id', 'student_name', 'uid', 'email'}
+            if not required_columns.issubset(df.columns):
+                return jsonify({'message': 'Missing required columns in the file'}), 400
+
             cursor = mysql.connection.cursor()
+
+            # Ensure all batch_ids in the file exist in the batches table
+            unique_batch_ids = df['batch_id'].unique()
+            for batch_id in unique_batch_ids:
+                cursor.execute('SELECT * FROM batches WHERE batch_id = %s', (batch_id,))
+                batch = cursor.fetchone()
+                if not batch:
+                    cursor.execute('INSERT INTO batches (batch_id, batch_name) VALUES (%s, %s)', 
+                                   (batch_id, f"Batch {batch_id}"))
+
             for index, row in df.iterrows():
                 print(f"Inserting row: {row.to_dict()}")  # Debugging statement
                 
-                # Check if batch_id exists in batches table
-                cursor.execute('SELECT * FROM batches WHERE batch_id = %s', (batch_id,))
-                batch = cursor.fetchone()
-                
-                # If batch_id does not exist, insert it into batches table
-                if not batch:
-                    cursor.execute('SELECT MAX(batch_id) FROM batches')
-                    max_batch_id = cursor.fetchone()[0]  # Accessing the first element of the tuple
-                    new_batch_id = max_batch_id + 1 if max_batch_id else 1
-                    cursor.execute('INSERT INTO batches (batch_id, batch_name) VALUES (%s, %s)', 
-                                   (new_batch_id, batch_id))
-                    batch_id = new_batch_id
-                
-                # Insert data into batch_students table with batch_student_id from Excel file
+                # Insert data into batch_students table
                 cursor.execute('INSERT INTO batch_students (batch_id, student_name, uid, email) VALUES (%s, %s, %s, %s)', 
                                (row['batch_id'], row['student_name'], row['uid'], row['email']))
             mysql.connection.commit()
@@ -260,7 +261,7 @@ def upload_class():
 
                 semester_id = int(semester_id)
 
-                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
+                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (semester_id,))
                 semester = cursor.fetchone()
                 if not semester:
                     return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
@@ -372,7 +373,7 @@ def upload_class():
                 semester_id = int(semester_id)
 
                 # Check if semester ID exists in the database
-                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
+                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (semester_id,))
                 semester = cursor.fetchone()
                 if not semester:
                     return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
