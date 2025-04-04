@@ -39,7 +39,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM admin_login WHERE username = %s AND password = %s', (username, password))
+        cursor.execute('SELECT * FROM adminlogin WHERE username = %s AND password = %s', (username, password))
         record = cursor.fetchone()
         cursor.close()
         if record:
@@ -262,7 +262,7 @@ def upload_class():
 
                 semester_id = int(semester_id)
 
-                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (semester_id,))
+                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
                 semester = cursor.fetchone()
                 if not semester:
                     return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400
@@ -374,7 +374,7 @@ def upload_class():
                 semester_id = int(semester_id)
 
                 # Check if semester ID exists in the database
-                cursor.execute('SELECT * FROM semester WHERE semester_id = %s', (semester_id,))
+                cursor.execute('SELECT * FROM sem WHERE semester_id = %s', (semester_id,))
                 semester = cursor.fetchone()
                 if not semester:
                     return jsonify({'message': f'Semester ID {semester_id} does not exist'}), 400

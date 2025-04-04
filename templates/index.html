@@ -3,9 +3,19 @@
 <head>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo1.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduTrackr</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduTrackr - A comprehensive platform for tracking and improving student performance.">
+    <meta name="keywords" content="EduTrackr, student performance tracking, academic management, education platform">
+    <meta property="og:title" content="EduTrackr | Student Performance Tracking">
+    <meta property="og:description" content="EduTrackr helps educational institutions monitor and improve student performance with advanced tools.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/logo.png') }}">
+    <meta property="og:url" content="https://josephjo.me">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EduTrackr | Student Performance Tracking">
+    <meta name="twitter:description" content="EduTrackr helps educational institutions monitor and improve student performance with advanced tools.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/logo.png') }}">
+    <title>EduTrackr | Student Performance Tracking</title>
   <style>
     /* General Reset */
     * {
@@ -320,15 +330,15 @@ main {
   <main>
     <div class="hero-section">
       <div class="hero-text">
-        <h1>Track and boost student performance effortlessly</h1>
+        <h1>Track and Boost Student Performance with EduTrackr</h1>
         <hr><br>
         <p>
-          Our platform empowers educational institutions to efficiently monitor and manage 
+          EduTrackr empowers educational institutions to efficiently monitor and manage 
           student performance. With advanced tools for class, batch, and subject management, 
           we provide a comprehensive solution for tracking grades, providing additional support, 
           and overall academic progress.
         </p>
-        <a href="{{ url_for('about_us') }}" class="btn">Read more</a>
+        <a href="{{ url_for('about_us') }}" class="btn">Learn More About EduTrackr</a>
       </div>
      
 

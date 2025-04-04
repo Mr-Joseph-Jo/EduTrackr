@@ -3,13 +3,13 @@
 Welcome to **EduTrackr**, a cutting-edge web-based platform hosted at [josephjo.me](https://josephjo.me). EduTrackr is designed to revolutionize academic performance tracking for educational institutions, providing a seamless and efficient way to monitor, analyze, and improve student outcomes.
 
 ## 🌐 Live Demo
-Visit the live platform at **[josephjo.me](https://josephjo.me)** to explore its features and capabilities.
+Visit the live platform **[here](https://josephjo.me)** to explore its features and capabilities.
 
 ---
 
 ## 📖 About EduTrackr
 
-EduTrackr is a comprehensive solution aimed at simplifying academic management for teachers and administrators. The platform is hosted at **[josephjo.me](https://josephjo.me)** and offers the following features:
+EduTrackr is a comprehensive solution aimed at simplifying academic management for teachers and administrators. The platform is hosted **[here](https://josephjo.me)** and offers the following features:
 
 - **Secure Login System**: Separate login portals for admins and teachers to ensure secure access.
 - **File Uploading & Processing**: Upload and process class and batch data effortlessly.
@@ -38,7 +38,7 @@ Teachers can:
 - Identify students needing additional support.
 
 ### 3. **Data Visualization**
-- Hosted at **[josephjo.me](https://josephjo.me)**, EduTrackr provides advanced data visualization tools to:
+- Hosted **[here](https://josephjo.me)**, EduTrackr provides advanced data visualization tools to:
   - Highlight attendance trends.
   - Compare batch-wise performance.
   - Analyze CGPA distribution.
@@ -58,7 +58,7 @@ EduTrackr is built using modern technologies to ensure reliability and scalabili
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Flask (Python)
 - **Database**: MySQL
-- **Hosting**: [josephjo.me](https://josephjo.me)
+- **Hosting**: [here](https://josephjo.me)
 
 ---
 
@@ -79,7 +79,7 @@ EduTrackr/
 
 ## 🌟 Key Highlights
 
-- **Hosted at [josephjo.me](https://josephjo.me)** for easy access.
+- **Hosted [here](https://josephjo.me)** for easy access.
 - Intuitive dashboards for admins and teachers.
 - Advanced analytics to support data-driven decision-making.
 - Secure and scalable architecture.
@@ -88,7 +88,7 @@ EduTrackr/
 
 ## 📋 How to Use
 
-1. Visit **[josephjo.me](https://josephjo.me)**.
+1. Visit **[here](https://josephjo.me)**.
 2. Log in as an admin or teacher.
 3. Upload batch or class data in Excel format.
 4. Access dashboards to analyze performance and generate reports.
@@ -121,7 +121,7 @@ EduTrackr/
    python app.py
    ```
 
-5. Access the application at `http://127.0.0.1:5000` or visit **[josephjo.me](https://josephjo.me)** for the live version.
+5. Access the application at `http://127.0.0.1:5000` or visit **[here](https://josephjo.me)** for the live version.
 
 ---
 
@@ -135,10 +135,10 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 For any inquiries or feedback, feel free to reach out:
 - **Email**: [u2204034@rajagiri.edu.in](mailto:u2204034@rajagiri.edu.in)
-- **Website**: [josephjo.me](https://josephjo.me)
+- **Website**: [here](https://josephjo.me)
 
 ---
 
 ## 🌐 Explore More
 
-Visit **[josephjo.me](https://josephjo.me)** to experience EduTrackr in action and learn more about its features.
+Visit **[here](https://josephjo.me)** to experience EduTrackr in action and learn more about its features.
