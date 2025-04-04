@@ -228,3 +228,20 @@ CREATE TABLE S8 (
     FOREIGN KEY (Semester_id) REFERENCES sem(Semester_id)
 
 );
+
+
+-- Create the batches table
+CREATE TABLE batches (
+    batch_id INT PRIMARY KEY,
+    batch_name VARCHAR(255) NOT NULL
+);
+
+-- Create the batch_students table
+CREATE TABLE batch_students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    batch_id INT NOT NULL,
+    student_name VARCHAR(255) NOT NULL,
+    uid VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL,
+    FOREIGN KEY (batch_id) REFERENCES batches(batch_id)
+);
