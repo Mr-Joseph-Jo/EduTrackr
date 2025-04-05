@@ -199,9 +199,69 @@
             background: #1d5bbf;
         }
 
+        .iframe-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto; /* Adjust height dynamically */
+        }
+
+        iframe {
+            border: none;
+        }
+
+        /* Button styling similar to admin.html */
+        .menu button {
+            background: #1a1a1a; /* Darker background color */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 20px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu button:hover {
+            background: #333333; /* Slightly lighter on hover */
+            color: #f1f1f1;
+            border: 2px solid #444444;
+        }
+
+        /* Flash message styling */
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert.success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
     </style>
 </head>
 <body>
+    <!-- Flash message container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <header>
         <div class="logo">
             <a href="{{ url_for('home') }}">
@@ -230,14 +290,17 @@
                 <p style="color: white;">Analyze Student Performance</p>
             </div>
     
-            <iframe title="sub_s1" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=5514ea27-2eeb-481d-a3f3-fa15f7f39c30&autoAuth=true&ctid=7db8dd0c-2406-4ed1-8b23-4bb56a705baf" frameborder="0" allowFullScreen="true"></iframe>
-
         <script>
             function showSection(sectionId) {
+                // Hide all content sections
                 const sections = document.querySelectorAll('.content-section');
-                sections.forEach(section => section.classList.remove('active'));
-    
-                document.getElementById(sectionId).classList.add('active');
+                sections.forEach(section => section.style.display = 'none');
+
+                // Show the selected section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
             }
     
             function showSemesterOptions() {
@@ -249,10 +312,77 @@
                 const analysisSection = document.getElementById('analysis-section');
                 analysisSection.style.display = 'block';
             }
-        </script>
-    
 
+            function toggleSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                const button = document.getElementById(`toggle-${sectionId}-btn`);
+
+                // Toggle the display of the section
+                if (section.style.display === 'none' || section.style.display === '') {
+                    section.style.display = 'block';
+                    if (button) button.textContent = `Close ${sectionId.replace('-', ' ')}`;
+                } else {
+                    section.style.display = 'none';
+                    if (button) button.textContent = `Open ${sectionId.replace('-', ' ')}`;
+                }
+            }
+        </script>
+
+<div class="menu">
+    <button id="toggle-report-btn" onclick="toggleSection('report-section')">Open Report</button>
+    <button id="toggle-update-btn" onclick="toggleSection('update-marks-section')">Update Marks</button>
+</div>
+
+<div id="report-section" class="content-section" style="display: none;">
+    <h2>Performance Report</h2>
+    <div class="iframe-container">
+        <iframe 
+            title="sub_s1" 
+            width="1140" 
+            height="541.25" 
+            src="https://app.powerbi.com/reportEmbed?reportId=5514ea27-2eeb-481d-a3f3-fa15f7f39c30&autoAuth=true&ctid=7db8dd0c-2406-4ed1-8b23-4bb56a705baf" 
+            frameborder="0" 
+            allowFullScreen="true">
+        </iframe>
+    </div>
+</div>
+
+<div id="update-marks-section" class="content-section" style="display: none;">
+    <h2>Update Marks</h2>
+    <form id="update-marks-form" method="POST" action="{{ url_for('update_marks') }}">
+        <div class="form-group">
+            <label for="uid">Student UID:</label>
+            <input type="text" id="uid" name="uid" placeholder="Enter Student UID" required>
+        </div>
+        <div class="form-group">
+            <label for="semester">Semester:</label>
+            <select id="semester" name="semester" required>
+                <option value="">-- Select Semester --</option>
+                <option value="s1">Semester 1</option>
+                <option value="s2">Semester 2</option>
+                <option value="s3">Semester 3</option>
+                <option value="s4">Semester 4</option>
+                <option value="s5">Semester 5</option>
+                <option value="s6">Semester 6</option>
+                <option value="s7">Semester 7</option>
+                <option value="s8">Semester 8</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject Column Name:</label>
+            <input type="text" id="subject" name="subject" placeholder="Enter Subject Column Name" required>
+        </div>
+        <div class="form-group">
+            <label for="new-mark">New Mark:</label>
+            <input type="number" id="new-mark" name="new_mark" placeholder="Enter New Mark" required>
+        </div>
+        <button type="submit" class="submit">Update Mark</button>
+    </form>
+</div>
+    
+    <div id="classes" class="report">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</div>
     <script>
         particlesJS('particles-js', {
             particles: {
@@ -274,6 +404,14 @@
             },
             retina_detect: true
         });
+
+        // Automatically hide flash messages after 5 seconds
+        setTimeout(() => {
+            const flashMessages = document.getElementById('flash-messages');
+            if (flashMessages) {
+                flashMessages.style.display = 'none';
+            }
+        }, 5000);
     </script>
 </body>
 </html>

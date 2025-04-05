@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, jsonify, session, render_template, redirect, url_for, send_from_directory, flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ CORS(app, supports_credentials=True)  # Enables frontend to call backend
 
 app.secret_key = 'secret_key'
 
-# Database Configuration
+# Database Connection Configuration
 app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD', 'password')
@@ -93,7 +93,7 @@ def teacher_login():
 # Define the teacher dashboard route
 @app.route('/teacher')
 def teacher_dashboard():
-    if 'loggedin' in session and session.get('role') == 'teacher':
+    if 'loggedin' in session and session.get('role') in ['teacher', 'admin']:
         return render_template('teacher.html')
     return redirect(url_for('teacher_login'))
 
@@ -420,6 +420,30 @@ def upload_class():
         except Exception as e:
             return jsonify({'message': f'Error processing file: {str(e)}'}), 500
         
+
+@app.route('/update_marks', methods=['POST'])
+def update_marks():
+    if 'loggedin' in session and session.get('role') in ['teacher', 'admin']:
+        uid = request.form['uid']
+        semester = request.form['semester']
+        subject = request.form['subject']
+        new_mark = request.form['new_mark']
+
+        try:
+            cursor = mysql.connection.cursor()
+            # Dynamically construct the query to update the specific mark
+            query = f"UPDATE {semester} SET {subject} = %s WHERE uid = %s"
+            cursor.execute(query, (new_mark, uid))
+            mysql.connection.commit()
+            cursor.close()
+            # Flash a success message
+            flash('Mark updated successfully!', 'success')
+            return redirect(url_for('teacher_dashboard'))
+        except Exception as e:
+            flash(f'Error updating mark: {str(e)}', 'error')
+            return redirect(url_for('teacher_dashboard'))
+    return redirect(url_for('teacher_login'))
+
 
 @app.route("/robots.txt")
 def robots():

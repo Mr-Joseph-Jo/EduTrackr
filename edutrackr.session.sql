@@ -1,3 +1,5 @@
+SELECT * FROM batch_students WHERE student_name = Alice Smith;
+
 INSERT INTO semester (semester_id, batch_id, semester_name)
 VALUES (2, 1, '2nd');
 INSERT INTO sem (semester_id, batch_name, semester_name) 
