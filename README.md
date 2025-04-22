@@ -1,6 +1,6 @@
 # EduTrackr
 
-Welcome to **EduTrackr**, a cutting-edge web-based platform hosted at [josephjo.me](https://josephjo.me). EduTrackr is designed to revolutionize academic performance tracking for educational institutions, providing a seamless and efficient way to monitor, analyze, and improve student outcomes.
+Welcome to **EduTrackr**, EduTrackr is designed to revolutionise academic performance tracking for educational institutions, providing a seamless and efficient way to monitor, analyse, and improve student outcomes.
 
 ## 🌐 Live Demo
 Visit the live platform **[here](https://josephjo.me)** to explore its features and capabilities.
